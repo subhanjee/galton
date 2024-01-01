@@ -1,0 +1,104 @@
+.main-login {
+  background: black;
+  padding: 80px 0px;
+  /* height: 100vh; */
+}
+
+.main-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-image: url(../../assets/images/Ellipse\ 8.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 45rem;
+}
+.main-cente-Logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 47rem;
+}
+.mid-grid {
+  /* background-color: white; */
+  background: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0.9) 100%);
+  padding: 60px 0px;
+  border-radius: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 28rem;
+}
+.input-size {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  font-size: 1rem !important;
+}
+.btn-black {
+  background-color: black !important;
+  color: white !important;
+  border-radius: 0.2rem !important;
+  border: solid 1px black !important;
+  width: 8rem !important;
+  padding: 0.5rem !important;
+  margin-top: 2rem !important;
+  cursor: pointer !important;
+}
+.border {
+  border-bottom: 6px solid #ffffffe5;
+  border-radius: 1rem;
+  width: 5rem;
+  box-shadow: 0px 16px 26px 0px #00000066;
+}
+.text-unlock {
+  color: #ffffff;
+  font-size: 1.2rem;
+  font-weight: 200;
+}
+.login-img {
+  height: 27rem;
+}
+
+@media (max-width: 425px) {
+  .mid-grid {
+    /* background-color: white; */
+    background: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0.9) 100%);
+    padding: 60px 0px;
+    border-radius: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 25rem;
+  }
+  .login-img {
+    height: 22rem;
+  }
+  .main-cente-Logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 25rem;
+  }
+}
+@media (max-width: 375px) {
+  .mid-grid {
+    /* background-color: white; */
+    background: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0.9) 100%);
+    padding: 60px 0px;
+    border-radius: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 23rem;
+  }
+  .login-img {
+    height: 22rem;
+  }
+}

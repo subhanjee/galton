@@ -1,0 +1,11 @@
+.css-1yl4b1w-MuiButtonBase-root-MuiListItemButton-root.Mui-selected {
+  background: linear-gradient(90deg, rgb(18, 18, 19) 0%, rgb(21, 22, 22) 0%, #6566a0 48%, #6566a0 94%) !important;
+  border-right: 2px solid #5b5b5b !important;
+}
+.logo-pos {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: -1;
+  margin-bottom: -10rem;
+}
