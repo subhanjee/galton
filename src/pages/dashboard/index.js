@@ -1,85 +1,169 @@
-import { useState } from 'react';
+import React from 'react';
 
 // material-ui
-import {
-  Avatar,
-  AvatarGroup,
-  Box,
-  Button,
-  Grid,
-  List,
-  ListItemAvatar,
-  ListItemButton,
-  ListItemSecondaryAction,
-  ListItemText,
-  MenuItem,
-  Stack,
-  TextField,
-  Typography
-} from '@mui/material';
+import { MenuItem, Select, Box, Grid, Stack, Typography } from '@mui/material';
+import dashb from 'assets/images/dashb.png';
 
 // project import
-import OrdersTable from './OrdersTable';
+// import OrdersTable from './OrdersTable';
 // import IncomeAreaChart from './IncomeAreaChart';
 import MonthlyBarChart from './MonthlyBarChart';
-import ReportAreaChart from './ReportAreaChart';
-import SalesColumnChart from './SalesColumnChart';
+// import ReportAreaChart from './ReportAreaChart';
+// import SalesColumnChart from './SalesColumnChart';
 import MainCard from 'components/MainCard';
-import AnalyticEcommerce from 'components/cards/statistics/AnalyticEcommerce';
+// import AnalyticEcommerce from 'components/cards/statistics/AnalyticEcommerce';
 
 // assets
-import { GiftOutlined, MessageOutlined, SettingOutlined } from '@ant-design/icons';
-import avatar1 from 'assets/images/users/avatar-1.png';
-import avatar2 from 'assets/images/users/avatar-2.png';
-import avatar3 from 'assets/images/users/avatar-3.png';
-import avatar4 from 'assets/images/users/avatar-4.png';
+// import { GiftOutlined, MessageOutlined, SettingOutlined } from '@ant-design/icons';
+// import avatar1 from 'assets/images/users/avatar-1.png';
+// import avatar2 from 'assets/images/users/avatar-2.png';
+// import avatar3 from 'assets/images/users/avatar-3.png';
+// import avatar4 from 'assets/images/users/avatar-4.png';
 
-// avatar style
-const avatarSX = {
-  width: 36,
-  height: 36,
-  fontSize: '1rem'
-};
-
-// action style
-const actionSX = {
-  mt: 0.75,
-  ml: 1,
-  top: 'auto',
-  right: 'auto',
-  alignSelf: 'flex-start',
-  transform: 'none'
-};
-
-// sales report status
-const status = [
+//category value Mn Sar
+const months = [
   {
-    value: 'today',
-    label: 'Today'
+    month: 'Jan',
+    value: '3.4'
   },
   {
-    value: 'month',
-    label: 'This Month'
+    month: 'Feb',
+    value: '3.4'
   },
   {
-    value: 'year',
-    label: 'This Year'
+    month: 'Mar',
+    value: '3.4'
+  },
+  {
+    month: 'Apr',
+    value: '3.4'
+  },
+  {
+    month: 'May',
+    value: '3.4'
+  },
+  {
+    month: 'June',
+    value: '3.4'
+  },
+  {
+    month: 'July',
+    value: '3.4'
+  },
+  {
+    month: 'Aug',
+    value: '3.4'
+  },
+  {
+    month: 'Sep',
+    value: '3.4'
   }
 ];
+
+// avatar style
+// const avatarSX = {
+//   width: 36,
+//   height: 36,
+//   fontSize: '1rem'
+// };
+
+// action style
+// const actionSX = {
+//   mt: 0.75,
+//   ml: 1,
+//   top: 'auto',
+//   right: 'auto',
+//   alignSelf: 'flex-start',
+//   transform: 'none'
+// };
+
+// // sales report status
+// const status = [
+//   {
+//     value: 'today',
+//     label: 'Today'
+//   },
+//   {
+//     value: 'month',
+//     label: 'This Month'
+//   },
+//   {
+//     value: 'year',
+//     label: 'This Year'
+//   }
+// ];
 
 // ==============================|| DASHBOARD - DEFAULT ||============================== //
 
 const DashboardDefault = () => {
-  const [value, setValue] = useState('today');
+  // const [value, setValue] = useState('today');
   // const [slot] = useState('week');
+  // const [selectedCategory, setSelectedCategory] = useState('');
+  const handleCategoryChange = (event) => {
+    setSelectedCategory(event.target.value);
+  };
 
   return (
     <Grid container rowSpacing={4.5} columnSpacing={2.75}>
       {/* row 1 */}
-      <Grid item xs={12} sx={{ mb: -2.25 }}>
-        <Typography variant="h5">Dashboard</Typography>
+
+      <Grid item xs={12} sm={6} md={6} lg={8}>
+        <div style={{ boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', border: '1px solid #CECECE', borderRadius: '1rem', padding: '1.2rem' }}>
+          <p style={{ fontSize: '2rem' }}>Biscuits & Cakes (&lt;75G)</p>
+          <p style={{ fontSize: '1rem', fontWeight: '700' }}>KPIs</p>
+          <div style={{ background: '#EDFAFF', border: '1px solid #CECECE', borderRadius: '8px', padding: '1rem' }}>
+            <h3>Category Value Mn SAR</h3>
+            <div style={{ display: 'flex', gap: '1rem' }}>
+              {months.map((item, index) => (
+                <div key={index} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem' }}>
+                  <div>
+                    {' '}
+                    <p>{item.month}</p>
+                    <p style={{ fontWeight: '600' }}>{item.value}</p>{' '}
+                  </div>
+                  <div style={{ width: '.1rem', height: '2.5rem', backgroundColor: '#D4D4D4' }}></div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div style={{ marginTop: '1rem', background: '#FCFFD6', border: '1px solid #CECECE', borderRadius: '8px', padding: '1rem' }}>
+            <h3>Category Volume in Tons</h3>
+            <div style={{ display: 'flex', gap: '1rem' }}>
+              {months.map((item, index) => (
+                <div key={index} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem' }}>
+                  <div>
+                    {' '}
+                    <p>{item.month}</p>
+                    <p style={{ fontWeight: '600' }}>{item.value}</p>{' '}
+                  </div>
+                  <div style={{ width: '.1rem', height: '2.5rem', backgroundColor: '#D4D4D4' }}></div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <br />
+              <Typography variant="h5">Income Overview</Typography>
+            </Grid>
+            <Grid item />
+          </Grid>
+          <MainCard sx={{ mt: 2 }} content={false}>
+            <Box sx={{ p: 3, pb: 0 }}>
+              <Stack spacing={2}>
+                <Typography variant="h6" color="textSecondary">
+                  This Week Statistics
+                </Typography>
+                <Typography variant="h3">$7,650</Typography>
+              </Stack>
+            </Box>
+            <MonthlyBarChart />
+          </MainCard>
+        </div>
       </Grid>
-      <Grid item xs={12} sm={6} md={4} lg={3}>
+
+      {/* <Grid item xs={12} sm={6} md={4} lg={3}>
         <AnalyticEcommerce title="Total Views" count="4,42,236" percentage={59.3} extra="35,000" />
       </Grid>
       <Grid item xs={12} sm={6} md={4} lg={3}>
@@ -87,14 +171,30 @@ const DashboardDefault = () => {
       </Grid>
       <Grid item xs={12} sm={6} md={4} lg={3}>
         <AnalyticEcommerce title="Total Order" count="18,800" percentage={27.4} isLoss color="warning" extra="1,943" />
-      </Grid>
+      </Grid> */}
       <Grid item xs={12} md={4} lg={3}>
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid item>{/* <Typography variant="h5">Analytics Report</Typography> */}</Grid>
           <Grid item />
         </Grid>
-        <MainCard sx={{ mt: 2 }} content={false}>
-          <List sx={{ p: 0, '& .MuiListItemButton-root': { py: 2 } }}>
+        <MainCard style={{ padding: '1rem', width: '23rem', borderRadius: '1rem' }} content={false}>
+          <div>
+            <h3>Choose Category</h3>
+            <Select
+              value="Biscuits & Cakes (<75G)"
+              onChange={handleCategoryChange}
+              style={{ width: '320px' }} // Adjust the width as needed
+            >
+              <MenuItem value="Biscuits & Cakes (<75G)">Biscuits & Cakes (&lt;75G)</MenuItem>
+              <MenuItem value="Biscuits & Cakes (<75G)">Biscuits & Cakes (&lt;75G)</MenuItem>
+              <MenuItem value="Biscuits & Cakes (<75G)">Biscuits & Cakes (&lt;75G)</MenuItem>
+              <MenuItem value="Biscuits & Cakes (<75G)">Biscuits & Cakes (&lt;75G)</MenuItem>
+              <MenuItem value="Biscuits & Cakes (<75G)">Biscuits & Cakes (&lt;75G)</MenuItem>
+
+              {/* Add more MenuItem components for additional options */}
+            </Select>
+          </div>
+          {/* <List sx={{ p: 0, '& .MuiListItemButton-root': { py: 2 } }}>
             <ListItemButton divider>
               <ListItemText primary="Company Finance Growth" />
               <Typography variant="h5">+45.14%</Typography>
@@ -107,7 +207,18 @@ const DashboardDefault = () => {
               <ListItemText primary="Business Risk Cases" />
               <Typography variant="h5">Low</Typography>
             </ListItemButton>
-          </List>
+          </List> */}
+        </MainCard>
+        <MainCard sx={{ mt: 2 }} style={{ padding: '1rem', width: '23rem', height: '60rem', borderRadius: '1rem' }} content={false}>
+          <div>
+            <h2>Insights</h2>
+            <h4>
+              Competitor sales are up 3%
+              <br /> overall whereas our sales are
+              <br /> down 1.23% from last month.
+            </h4>
+            <img src={dashb} alt="Mantis" style={{ width: '22rem', opacity: 0.1, height: '538px', marginTop: '10rem', left: '928px' }} />
+          </div>
         </MainCard>
       </Grid>
 
@@ -146,7 +257,7 @@ const DashboardDefault = () => {
           </Box>
         </MainCard> */}
       {/* </Grid> */}
-      <Grid item xs={12} md={12} lg={12}>
+      {/* <Grid item xs={12} md={12} lg={12}>
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid item>
             <Typography variant="h5">Income Overview</Typography>
@@ -167,7 +278,7 @@ const DashboardDefault = () => {
       </Grid>
 
       {/* row 3 */}
-      <Grid item xs={12} md={7} lg={8}>
+      {/* <Grid item xs={12} md={7} lg={8}>
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid item>
             <Typography variant="h5">Recent Orders</Typography>
@@ -177,8 +288,8 @@ const DashboardDefault = () => {
         <MainCard sx={{ mt: 2 }} content={false}>
           <OrdersTable />
         </MainCard>
-      </Grid>
-      <Grid item xs={12} md={5} lg={4}>
+      </Grid> */}
+      {/* <Grid item xs={12} md={5} lg={4}>
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid item>
             <Typography variant="h5">Analytics Report</Typography>
@@ -202,10 +313,10 @@ const DashboardDefault = () => {
           </List>
           <ReportAreaChart />
         </MainCard>
-      </Grid>
+      </Grid> */}
 
       {/* row 4 */}
-      <Grid item xs={12} md={7} lg={8}>
+      {/* <Grid item xs={12} md={7} lg={8}>
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid item>
             <Typography variant="h5">Sales Report</Typography>
@@ -236,8 +347,8 @@ const DashboardDefault = () => {
           </Stack>
           <SalesColumnChart />
         </MainCard>
-      </Grid>
-      <Grid item xs={12} md={5} lg={4}>
+      </Grid> */}
+      {/* <Grid item xs={12} md={5} lg={4}>
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid item>
             <Typography variant="h5">Transaction History</Typography>
@@ -355,7 +466,7 @@ const DashboardDefault = () => {
             </Button>
           </Stack>
         </MainCard>
-      </Grid>
+      </Grid>  */}
     </Grid>
   );
 };
