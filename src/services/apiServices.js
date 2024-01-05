@@ -18,9 +18,9 @@ export const createThread = async (user) => {
   return data;
 };
 
-export const updateBid = async (id, user) => {
-  const response = await fetch(`${API_BASE_URL}/api/Bid/${id}`, {
-    method: 'PUT',
+export const CreateValueShare = async () => {
+  const response = await fetch(`${API_BASE_URL}/value_share_asst`, {
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
@@ -30,9 +30,25 @@ export const updateBid = async (id, user) => {
   return data;
 };
 
-export const deleteBid = async (id) => {
-  const response = await fetch(`${API_BASE_URL}/api/Bid/${id}`, {
-    method: 'DELETE'
+export const createValueShareAsstCheck = async (user) => {
+  const response = await fetch(`${API_BASE_URL}/value_share_asst_check_status`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(user)
   });
-  return response.ok;
+  const data = await response.json();
+  return data;
+};
+export const createValueShareAsstMessageList = async (user) => {
+  const response = await fetch(`${API_BASE_URL}/value_share_asst_message_list`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(user)
+  });
+  const data = await response.json();
+  return data;
 };
