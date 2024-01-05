@@ -209,7 +209,7 @@ const DashboardDefault = () => {
             </ListItemButton>
           </List> */}
         </MainCard>
-        <MainCard sx={{ mt: 2 }} style={{ padding: '1rem', width: '23rem', height: '60rem', borderRadius: '1rem' }} content={false}>
+        <MainCard sx={{ mt: 2 }} style={{ padding: '1rem', width: '23rem', height: '50rem', borderRadius: '1rem' }} content={false}>
           <div>
             <h2>Insights</h2>
             <h4>
