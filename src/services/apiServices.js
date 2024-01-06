@@ -18,7 +18,7 @@ export const createThread = async (user) => {
   return data;
 };
 
-export const CreateValueShare = async () => {
+export const CreateValueShare = async (user) => {
   const response = await fetch(`${API_BASE_URL}/value_share_asst`, {
     method: 'POST',
     headers: {
