@@ -214,15 +214,6 @@ const DashboardDefault = () => {
         </div>
       </Grid>
 
-      {/* <Grid item xs={12} sm={6} md={4} lg={3}>
-        <AnalyticEcommerce title="Total Views" count="4,42,236" percentage={59.3} extra="35,000" />
-      </Grid>
-      <Grid item xs={12} sm={6} md={4} lg={3}>
-        <AnalyticEcommerce title="Total Users" count="78,250" percentage={70.5} extra="8,900" />
-      </Grid>
-      <Grid item xs={12} sm={6} md={4} lg={3}>
-        <AnalyticEcommerce title="Total Order" count="18,800" percentage={27.4} isLoss color="warning" extra="1,943" />
-      </Grid> */}
       <Grid item xs={12} md={4} lg={3}>
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid item>{/* <Typography variant="h5">Analytics Report</Typography> */}</Grid>
@@ -232,33 +223,17 @@ const DashboardDefault = () => {
           <div>
             <h3>Choose Category</h3>
             <Select
-              value="Biscuits & Cakes (<75G)"
+              value="biscuits_and_cakes"
               onChange={handleCategoryChange}
               style={{ width: '320px' }} // Adjust the width as needed
             >
-              <MenuItem value="Biscuits & Cakes (<75G)">Biscuits & Cakes (&lt;75G)</MenuItem>
-              <MenuItem value="Biscuits & Cakes (<75G)">Biscuits & Cakes (&lt;75G)</MenuItem>
-              <MenuItem value="Biscuits & Cakes (<75G)">Biscuits & Cakes (&lt;75G)</MenuItem>
-              <MenuItem value="Biscuits & Cakes (<75G)">Biscuits & Cakes (&lt;75G)</MenuItem>
-              <MenuItem value="Biscuits & Cakes (<75G)">Biscuits & Cakes (&lt;75G)</MenuItem>
-
-              {/* Add more MenuItem components for additional options */}
+              <MenuItem value="biscuits_and_cakes">Biscuits & Cakes (&lt;75G)</MenuItem>
+              <MenuItem value="chocolate">Chocolate </MenuItem>
+              <MenuItem value="candy ">Candy</MenuItem>
+              <MenuItem value="powdered_bevarage">Powdered Beverage</MenuItem>
+              <MenuItem value="grocery ">Grocery</MenuItem>
             </Select>
           </div>
-          {/* <List sx={{ p: 0, '& .MuiListItemButton-root': { py: 2 } }}>
-            <ListItemButton divider>
-              <ListItemText primary="Company Finance Growth" />
-              <Typography variant="h5">+45.14%</Typography>
-            </ListItemButton>
-            <ListItemButton divider>
-              <ListItemText primary="Company Expenses Ratio" />
-              <Typography variant="h5">0.58%</Typography>
-            </ListItemButton>
-            <ListItemButton>
-              <ListItemText primary="Business Risk Cases" />
-              <Typography variant="h5">Low</Typography>
-            </ListItemButton>
-          </List> */}
         </MainCard>
         <MainCard sx={{ mt: 2 }} style={{ padding: '1rem', width: '23rem', height: '50rem', borderRadius: '1rem' }} content={false}>
           <div>
