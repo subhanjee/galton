@@ -23,13 +23,13 @@ import MainCard from 'components/MainCard';
 import {
   CreateValueShare,
   createValueShareAsstCheck,
-  createValueShareAsstMessageList,
-  createStackedChartAgent,
-  createStackedChartAgentCheckStatus,
-  createStackedChartAgentMessageList,
-  createkpiAgent,
-  createkpiAgentCheckStatus,
-  createkpiMessageApi
+  createValueShareAsstMessageList
+  // createStackedChartAgent,
+  // createStackedChartAgentCheckStatus,
+  // createStackedChartAgentMessageList,
+  // createkpiAgent,
+  // createkpiAgentCheckStatus,
+  // createkpiMessageApi
 } from 'services/apiServices';
 //category value Mn Sar
 const months = [
@@ -118,43 +118,43 @@ const DashboardDefault = () => {
   const valShareAsst = async () => {
     try {
       const first = await CreateValueShare({
-        category: 'chocolate'
+        category: 'biscuits_and_cakes'
       });
       console.log(first, 'first VSA');
 
-      // async function checkStatusUntilCompleted(first) {
-      //   let isCompleted = false;
-      //   let status = '';
+      async function checkStatusUntilCompleted(first) {
+        let isCompleted = false;
+        let status = '';
 
-      //   while (!isCompleted) {
-      //     const second = await createValueShareAsstCheck({
-      //       thread_id: first.thread_id,
-      //       run_id: first.run_id
-      //     });
-      //     console.log(second, 'second VSA');
-      //     status = second.retrive_status;
+        while (!isCompleted) {
+          const second = await createValueShareAsstCheck({
+            thread_id: first.thread_id,
+            run_id: first.run_id
+          });
+          console.log(second, 'second VSA');
+          status = second.retrive_status;
 
-      //     if (status == 'completed') {
-      //       isCompleted = true;
-      //       setsecound(secound.run_status?.data?.[0].thread_id);
-      //       console.log(secound.run_status, 'testinggg');
-      //     } else {
-      //       // Optionally, you can introduce a delay before making the next check
-      //       await new Promise((resolve) => setTimeout(resolve, 30000)); // Wait for 1 second (adjust as needed)
-      //     }
-      //   }
+          if (status == 'completed') {
+            isCompleted = true;
+            setsecound(secound.run_status?.data?.[0].thread_id);
+            console.log(secound.run_status?.data, 'testinggg');
+          } else {
+            // Optionally, you can introduce a delay before making the next check
+            await new Promise((resolve) => setTimeout(resolve, 30000)); // Wait for 1 second (adjust as needed)
+          }
+        }
 
-      //   console.log('Retrieval completed. Final status:', status);
+        console.log('Retrieval completed. Final status:', status);
 
-      //   // Code to execute after completion of the loop
-      //   const three = await createValueShareAsstMessageList({
-      //     thread_id: secound.run_status?.data?.[0].thread_id
-      //   });
-      //   console.log(three, 'three VSA');
-      // }
+        // Code to execute after completion of the loop
+        const three = await createValueShareAsstMessageList({
+          thread_id: secound.run_status?.data?.[0].thread_id
+        });
+        console.log(three, 'three VSA');
+      }
 
-      // // Invoke the checkStatusUntilCompleted function
-      // await checkStatusUntilCompleted(first);
+      // Invoke the checkStatusUntilCompleted function
+      await checkStatusUntilCompleted(first);
     } catch (error) {
       console.error('Error occurred:', error);
     }
