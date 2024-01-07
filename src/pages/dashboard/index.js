@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 // material-ui
 import { MenuItem, Select, Box, Grid, Stack, Typography } from '@mui/material';
@@ -19,7 +19,18 @@ import MainCard from 'components/MainCard';
 // import avatar2 from 'assets/images/users/avatar-2.png';
 // import avatar3 from 'assets/images/users/avatar-3.png';
 // import avatar4 from 'assets/images/users/avatar-4.png';
-
+// API exports
+import {
+  CreateValueShare,
+  createValueShareAsstCheck,
+  createValueShareAsstMessageList,
+  createStackedChartAgent,
+  createStackedChartAgentCheckStatus,
+  createStackedChartAgentMessageList,
+  createkpiAgent,
+  createkpiAgentCheckStatus,
+  createkpiMessageApi
+} from 'services/apiServices';
 //category value Mn Sar
 const months = [
   {
@@ -96,12 +107,151 @@ const months = [
 // ==============================|| DASHBOARD - DEFAULT ||============================== //
 
 const DashboardDefault = () => {
-  // const [value, setValue] = useState('today');
+  const [secound, setsecound] = useState('');
   // const [slot] = useState('week');
-  // const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
+    console.log(selectedCategory);
   };
+
+  const valShareAsst = async () => {
+    try {
+      const first = await CreateValueShare({
+        category: 'chocolate'
+      });
+      console.log(first, 'first VSA');
+
+      // async function checkStatusUntilCompleted(first) {
+      //   let isCompleted = false;
+      //   let status = '';
+
+      //   while (!isCompleted) {
+      //     const second = await createValueShareAsstCheck({
+      //       thread_id: first.thread_id,
+      //       run_id: first.run_id
+      //     });
+      //     console.log(second, 'second VSA');
+      //     status = second.retrive_status;
+
+      //     if (status == 'completed') {
+      //       isCompleted = true;
+      //       setsecound(secound.run_status?.data?.[0].thread_id);
+      //       console.log(secound.run_status, 'testinggg');
+      //     } else {
+      //       // Optionally, you can introduce a delay before making the next check
+      //       await new Promise((resolve) => setTimeout(resolve, 30000)); // Wait for 1 second (adjust as needed)
+      //     }
+      //   }
+
+      //   console.log('Retrieval completed. Final status:', status);
+
+      //   // Code to execute after completion of the loop
+      //   const three = await createValueShareAsstMessageList({
+      //     thread_id: secound.run_status?.data?.[0].thread_id
+      //   });
+      //   console.log(three, 'three VSA');
+      // }
+
+      // // Invoke the checkStatusUntilCompleted function
+      // await checkStatusUntilCompleted(first);
+    } catch (error) {
+      console.error('Error occurred:', error);
+    }
+  };
+
+  // const stackChartAgg = async () => {
+  //   try {
+  //     const first = await CreateValueShare({
+  //       category: selectedCategory
+  //     });
+  //     console.log(first, 'first VSA');
+
+  //     async function checkStatusUntilCompleted(first) {
+  //       let isCompleted = false;
+  //       let status = '';
+
+  //       while (!isCompleted) {
+  //         const second = await createValueShareAsstCheck({
+  //           thread_id: first.thread_id,
+  //           run_id: first.run_id
+  //         });
+  //         console.log(second, 'second VSA');
+  //         status = second.retrive_status;
+
+  //         if (status == 'completed') {
+  //           isCompleted = true;
+  //           setsecound(secound.run_status?.data?.[0].thread_id);
+  //           console.log(secound.run_status, 'testinggg');
+  //         } else {
+  //           // Optionally, you can introduce a delay before making the next check
+  //           await new Promise((resolve) => setTimeout(resolve, 30000)); // Wait for 1 second (adjust as needed)
+  //         }
+  //       }
+
+  //       console.log('Retrieval completed. Final status:', status);
+
+  //       // Code to execute after completion of the loop
+  //       const three = await createValueShareAsstMessageList({
+  //         thread_id: secound.run_status?.data?.[0].thread_id
+  //       });
+  //       console.log(three, 'three VSA');
+  //     }
+
+  //     // Invoke the checkStatusUntilCompleted function
+  //     await checkStatusUntilCompleted(first);
+  //   } catch (error) {
+  //     console.error('Error occurred:', error);
+  //   }
+  // };
+
+  // const kpiAsst = async () => {
+  //   try {
+  //     const first = await createkpiAgent({
+  //       category: selectedCategory
+  //     });
+  //     console.log(first, 'first KPI');
+
+  //     async function checkStatusUntilCompleted(first) {
+  //       let isCompleted = false;
+  //       let status = '';
+
+  //       while (!isCompleted) {
+  //         const second = await createkpiAgentCheckStatus({
+  //           thread_id: first.thread_id,
+  //           run_id: first.run_id
+  //         });
+  //         console.log(second, 'second KPI');
+  //         status = second.retrive_status;
+
+  //         if (status == 'completed') {
+  //           isCompleted = true;
+  //           setsecound(secound.run_status?.data?.[0].thread_id);
+  //           console.log(secound.run_status, 'testinggg');
+  //         } else {
+  //           // Optionally, you can introduce a delay before making the next check
+  //           await new Promise((resolve) => setTimeout(resolve, 30000)); // Wait for 1 second (adjust as needed)
+  //         }
+  //       }
+
+  //       console.log('Retrieval completed. Final status:', status);
+
+  //       // Code to execute after completion of the loop
+  //       const three = await createkpiMessageApi({
+  //         thread_id: secound.run_status?.data?.[0].thread_id
+  //       });
+  //       console.log(three, 'three KPI');
+  //     }
+
+  //     // Invoke the checkStatusUntilCompleted function
+  //     await checkStatusUntilCompleted(first);
+  //   } catch (error) {
+  //     console.error('Error occurred:', error);
+  //   }
+  // };
+  useEffect(() => {
+    valShareAsst();
+  }, []);
 
   return (
     <Grid container rowSpacing={4.5} columnSpacing={2.75}>
