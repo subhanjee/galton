@@ -152,6 +152,7 @@ const DashboardDefault = () => {
         setInsight(three.message_list.data?.[0]?.content?.[0]?.text.value);
         setFileID(three.message_list.data?.[0]?.file_id?.[0]);
         console.log(three, 'three VSA');
+        console.log(fileId, 'three VSA');
       }
 
       // Invoke the checkStatusUntilCompleted function
