@@ -107,7 +107,8 @@ const months = [
 // ==============================|| DASHBOARD - DEFAULT ||============================== //
 
 const DashboardDefault = () => {
-  const [secound, setsecound] = useState('');
+  const [Insight, setInsight] = useState('');
+  const [fileId, setFileID] = useState('');
   // const [slot] = useState('week');
   const [selectedCategory, setSelectedCategory] = useState('');
   const handleCategoryChange = (event) => {
@@ -125,7 +126,7 @@ const DashboardDefault = () => {
       async function checkStatusUntilCompleted(first) {
         let isCompleted = false;
         let status = '';
-
+        let dataTwo = {};
         while (!isCompleted) {
           const second = await createValueShareAsstCheck({
             thread_id: first.thread_id,
@@ -136,20 +137,20 @@ const DashboardDefault = () => {
 
           if (status == 'completed') {
             isCompleted = true;
-            setsecound(secound.run_status?.data?.[0].thread_id);
-            console.log(secound.run_status?.data, 'testinggg');
+            dataTwo = second.run_status;
           } else {
             // Optionally, you can introduce a delay before making the next check
-            await new Promise((resolve) => setTimeout(resolve, 30000)); // Wait for 1 second (adjust as needed)
+            await new Promise((resolve) => setTimeout(resolve, 10000)); // Wait for 1 second (adjust as needed)
           }
         }
 
         console.log('Retrieval completed. Final status:', status);
 
         // Code to execute after completion of the loop
-        const three = await createValueShareAsstMessageList({
-          thread_id: secound.run_status?.data?.[0].thread_id
-        });
+        const threadId = dataTwo.data?.[0].thread_id;
+        const three = await createValueShareAsstMessageList({ thread_id: threadId });
+        setInsight(three.message_list.data?.[0]?.content?.[0]?.text.value);
+        setFileID(three.message_list.data?.[0]?.file_id?.[0]);
         console.log(three, 'three VSA');
       }
 
@@ -337,11 +338,7 @@ const DashboardDefault = () => {
         <MainCard sx={{ mt: 2 }} style={{ padding: '1rem', width: '23rem', height: '50rem', borderRadius: '1rem' }} content={false}>
           <div>
             <h2>Insights</h2>
-            <h4>
-              Competitor sales are up 3%
-              <br /> overall whereas our sales are
-              <br /> down 1.23% from last month.
-            </h4>
+            <h4>{Insight}</h4>
             <img src={dashb} alt="Mantis" style={{ width: '22rem', opacity: 0.1, height: '538px', marginTop: '10rem', left: '928px' }} />
           </div>
         </MainCard>
