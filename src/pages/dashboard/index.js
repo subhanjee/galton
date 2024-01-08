@@ -110,7 +110,8 @@ const months = [
 const DashboardDefault = () => {
   const [Insight, setInsight] = useState('');
   const [chart, setchart] = useState('');
-  const [kpi, setkpi] = useState('');
+  const [kpi, setkpi] = useState([]);
+  const [volume, setvolume] = useState([]);
 
   const [fileId, setFileID] = useState('');
   // const [slot] = useState('week');
@@ -171,7 +172,7 @@ const DashboardDefault = () => {
   const stackChartAgg = async (file) => {
     try {
       const categoryToUse = selectedCategory ? { category: selectedCategory } : { category: 'biscuits_and_cakes' };
-      const idfile = { file_id: file.message_list.data?.[0]?.file_ids?.[0] };
+      const idfile = { file_id: file.message_list.data[0].content[0].text.annotations[0].file_path.file_id };
       const first = await createStackedChartAgent({
         categoryToUse,
         idfile
@@ -249,8 +250,27 @@ const DashboardDefault = () => {
         // Code to execute after completion of the loop
         const threadId = dataTwo.data?.[0].thread_id;
         const three = await createkpiMessageApi({ thread_id: threadId });
-        setkpi(three);
         console.log(three, 'three KPI');
+        const data = three.message_list.data?.[0]?.content?.[0]?.text.value;
+        const parseData = (data) => {
+          const regex = /Value Sales:{(.*?)},\s*Volume:{(.*?)}/s;
+          const match = data.match(regex);
+
+          if (match && match.length === 3) {
+            const valueSales = match[1].split(',').map((value) => parseFloat(value.trim()));
+            const volume = match[2].split(',').map((value) => parseFloat(value.trim()));
+
+            return { valueSales, volume };
+          }
+
+          return { valueSales: [], volume: [] };
+        };
+
+        // Then, you can use parseData function and get separated data
+        const { valueSales, volume } = parseData(data);
+        console.log(valueSales, volume, 'DATA HAY BHAI');
+        setkpi(valueSales);
+        setvolume(volume);
       }
 
       // Invoke the checkStatusUntilCompleted function
@@ -277,12 +297,16 @@ const DashboardDefault = () => {
             <div style={{ display: 'flex', gap: '1rem' }}>
               {months.map((item, index) => (
                 <div key={index} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem' }}>
+                  <p>{item.month}</p>
                   <div>
-                    {' '}
-                    <p>{item.month}</p>
-                    <p style={{ fontWeight: '600' }}>{item.value}</p>{' '}
+                    {kpi?.map((item, index) => (
+                      <div key={index} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem' }}>
+                        <p>{item.month}</p>
+                        <p style={{ fontWeight: '600' }}>{item}</p>
+                        <div style={{ width: '.1rem', height: '2.5rem', backgroundColor: '#D4D4D4' }}></div>
+                      </div>
+                    ))}
                   </div>
-                  <div style={{ width: '.1rem', height: '2.5rem', backgroundColor: '#D4D4D4' }}></div>
                 </div>
               ))}
             </div>
@@ -292,14 +316,19 @@ const DashboardDefault = () => {
             <div style={{ display: 'flex', gap: '1rem' }}>
               {months.map((item, index) => (
                 <div key={index} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem' }}>
-                  <div>
-                    {' '}
-                    <p>{item.month}</p>
-                    <p style={{ fontWeight: '600' }}>{item.value}</p>{' '}
-                  </div>
-                  <div style={{ width: '.1rem', height: '2.5rem', backgroundColor: '#D4D4D4' }}></div>
+                  <p>{item.month}</p>
                 </div>
               ))}
+              <div>
+                {volume?.map((item, index) => (
+                  <>
+                    <div key={index} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem' }}>
+                      <p style={{ fontWeight: '600' }}>{item}</p>
+                    </div>
+                    <div style={{ width: '.1rem', height: '2.5rem', backgroundColor: '#D4D4D4' }}></div>
+                  </>
+                ))}
+              </div>
             </div>
           </div>
 
