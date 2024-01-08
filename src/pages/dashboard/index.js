@@ -172,8 +172,8 @@ const DashboardDefault = () => {
       const categoryToUse = selectedCategory ? { category: selectedCategory } : { category: 'biscuits_and_cakes' };
       const idfile = { file_id: file.message_list.data[0].content[0].text.annotations[0].file_path?.file_id };
       const first = await createStackedChartAgent({
-        category: 'biscuits_and_cakes',
-        file_id: file.message_list.data[0].content[0].text.annotations[0].file_path?.file_id
+        category: categoryToUse,
+        file_id: idfile
       });
       console.log(first, 'first SCA');
 
@@ -306,7 +306,7 @@ const DashboardDefault = () => {
             <div style={{ display: 'flex', gap: '1rem' }}>
               {kpi?.map((item, index) => (
                 <div key={index} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem' }}>
-                  <p style={{ fontWeight: '600' }}>{item}</p>
+                  <p style={{ fontWeight: '600' }}>{String(item).slice(0, 4)}</p>
                   <div style={{ width: '.1rem', height: '2.5rem', backgroundColor: '#D4D4D4' }}></div>
                 </div>
               ))}
@@ -319,6 +319,7 @@ const DashboardDefault = () => {
               {months.map((item, index) => (
                 <div key={index} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '2rem' }}>
                   <p>{item.month}</p>
+                  {/* <div style={{ width: '.1rem', height: '2.5rem', backgroundColor: '#D4D4D4' }}></div> */}
                 </div>
               ))}
             </div>
@@ -326,7 +327,7 @@ const DashboardDefault = () => {
               {volume?.map((item, index) => (
                 <>
                   <div key={index} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem' }}>
-                    <p style={{ fontWeight: '600' }}>{item}</p>
+                    <p style={{ fontWeight: '600' }}>{String(item).slice(0, 4)}</p>
                     <div style={{ width: '.1rem', height: '2.5rem', backgroundColor: '#D4D4D4' }}></div>
                   </div>
                 </>
