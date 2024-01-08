@@ -11,6 +11,8 @@ import MonthlyBarChart from './MonthlyBarChart';
 // import ReportAreaChart from './ReportAreaChart';
 // import SalesColumnChart from './SalesColumnChart';
 import MainCard from 'components/MainCard';
+
+// import './index.css';
 // import AnalyticEcommerce from 'components/cards/statistics/AnalyticEcommerce';
 
 // assets
@@ -109,6 +111,7 @@ const months = [
 const DashboardDefault = () => {
   const [Insight, setInsight] = useState('');
   const [fileId, setFileID] = useState('');
+  const [progress, setProgress] = useState('');
   // const [slot] = useState('week');
   const [selectedCategory, setSelectedCategory] = useState('');
   const handleCategoryChange = (event) => {
@@ -133,6 +136,7 @@ const DashboardDefault = () => {
             run_id: first.run_id
           });
           console.log(second, 'second VSA');
+          setProgress(second.retrive_status, 'progress');
           status = second.retrive_status;
 
           if (status == 'completed') {
@@ -152,6 +156,7 @@ const DashboardDefault = () => {
         setInsight(three.message_list.data?.[0]?.content?.[0]?.text.value);
         setFileID(three.message_list.data?.[0]?.file_id?.[0]);
         console.log(three, 'three VSA');
+        console.log(fileId, 'three VSA');
       }
 
       // Invoke the checkStatusUntilCompleted function
@@ -255,104 +260,131 @@ const DashboardDefault = () => {
   }, []);
 
   return (
-    <Grid container rowSpacing={4.5} columnSpacing={2.75}>
-      {/* row 1 */}
-
-      <Grid item xs={12} sm={6} md={6} lg={8}>
-        <div style={{ boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', border: '1px solid #CECECE', borderRadius: '1rem', padding: '1.2rem' }}>
-          <p style={{ fontSize: '2rem' }}>Biscuits & Cakes (&lt;75G)</p>
-          <p style={{ fontSize: '1rem', fontWeight: '700' }}>KPIs</p>
-          <div style={{ background: '#EDFAFF', border: '1px solid #CECECE', borderRadius: '8px', padding: '1rem' }}>
-            <h3>Category Value Mn SAR</h3>
-            <div style={{ display: 'flex', gap: '1rem' }}>
-              {months.map((item, index) => (
-                <div key={index} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem' }}>
-                  <div>
-                    {' '}
-                    <p>{item.month}</p>
-                    <p style={{ fontWeight: '600' }}>{item.value}</p>{' '}
-                  </div>
-                  <div style={{ width: '.1rem', height: '2.5rem', backgroundColor: '#D4D4D4' }}></div>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div style={{ marginTop: '1rem', background: '#FCFFD6', border: '1px solid #CECECE', borderRadius: '8px', padding: '1rem' }}>
-            <h3>Category Volume in Tons</h3>
-            <div style={{ display: 'flex', gap: '1rem' }}>
-              {months.map((item, index) => (
-                <div key={index} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem' }}>
-                  <div>
-                    {' '}
-                    <p>{item.month}</p>
-                    <p style={{ fontWeight: '600' }}>{item.value}</p>{' '}
-                  </div>
-                  <div style={{ width: '.1rem', height: '2.5rem', backgroundColor: '#D4D4D4' }}></div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <Grid container alignItems="center" justifyContent="space-between">
-            <Grid item>
-              <br />
-              <Typography variant="h5">Income Overview</Typography>
-            </Grid>
-            <Grid item />
-          </Grid>
-          <MainCard sx={{ mt: 2 }} content={false}>
-            <Box sx={{ p: 3, pb: 0 }}>
-              <Stack spacing={2}>
-                <Typography variant="h6" color="textSecondary">
-                  This Week Statistics
-                </Typography>
-                <Typography variant="h3">$7,650</Typography>
-              </Stack>
-            </Box>
-            <MonthlyBarChart />
-          </MainCard>
+    <>
+      {progress !== 'completed' ? (
+        <div className="div-main">
+          <h1 style={{ textAlign: 'center' }}>{progress}</h1>
         </div>
-      </Grid>
+      ) : (
+        <Grid container rowSpacing={4.5} columnSpacing={2.75}>
+          {/* row 1 */}
 
-      <Grid item xs={12} md={4} lg={3}>
-        <Grid container alignItems="center" justifyContent="space-between">
-          <Grid item>{/* <Typography variant="h5">Analytics Report</Typography> */}</Grid>
-          <Grid item />
-        </Grid>
-        <MainCard style={{ padding: '1rem', width: '23rem', borderRadius: '1rem' }} content={false}>
-          <div>
-            <h3>Choose Category</h3>
-            <Select
-              value="biscuits_and_cakes"
-              onChange={handleCategoryChange}
-              style={{ width: '320px' }} // Adjust the width as needed
+          <Grid item xs={12} sm={6} md={6} lg={8}>
+            <div
+              style={{ boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', border: '1px solid #CECECE', borderRadius: '1rem', padding: '1.2rem' }}
             >
-              <MenuItem value="biscuits_and_cakes">Biscuits & Cakes (&lt;75G)</MenuItem>
-              <MenuItem value="chocolate">Chocolate </MenuItem>
-              <MenuItem value="candy ">Candy</MenuItem>
-              <MenuItem value="powdered_bevarage">Powdered Beverage</MenuItem>
-              <MenuItem value="grocery ">Grocery</MenuItem>
-            </Select>
-          </div>
-        </MainCard>
-        <MainCard sx={{ mt: 2 }} style={{ padding: '1rem', width: '23rem', height: '50rem', borderRadius: '1rem' }} content={false}>
-          <div>
-            <h2>Insights</h2>
-            <h4>{Insight}</h4>
-            <img src={dashb} alt="Mantis" style={{ width: '22rem', opacity: 0.1, height: '538px', marginTop: '10rem', left: '928px' }} />
-          </div>
-        </MainCard>
-      </Grid>
+              <p style={{ fontSize: '2rem' }}>Biscuits & Cakes (&lt;75G)</p>
+              <p style={{ fontSize: '1rem', fontWeight: '700' }}>KPIs</p>
+              <div style={{ background: '#EDFAFF', border: '1px solid #CECECE', borderRadius: '8px', padding: '1rem' }}>
+                <h3>Category Value Mn SAR</h3>
+                <div style={{ display: 'flex', gap: '1rem' }}>
+                  {months.map((item, index) => (
+                    <div key={index} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem' }}>
+                      <div>
+                        {' '}
+                        <p>{item.month}</p>
+                        <p style={{ fontWeight: '600' }}>{item.value}</p>{' '}
+                      </div>
+                      <div style={{ width: '.1rem', height: '2.5rem', backgroundColor: '#D4D4D4' }}></div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div style={{ marginTop: '1rem', background: '#FCFFD6', border: '1px solid #CECECE', borderRadius: '8px', padding: '1rem' }}>
+                <h3>Category Volume in Tons</h3>
+                <div style={{ display: 'flex', gap: '1rem' }}>
+                  {months.map((item, index) => (
+                    <div key={index} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem' }}>
+                      <div>
+                        {' '}
+                        <p>{item.month}</p>
+                        <p style={{ fontWeight: '600' }}>{item.value}</p>{' '}
+                      </div>
+                      <div style={{ width: '.1rem', height: '2.5rem', backgroundColor: '#D4D4D4' }}></div>
+                    </div>
+                  ))}
+                </div>
+              </div>
 
-      <Grid item md={8} sx={{ display: { sm: 'none', md: 'block', lg: 'none' } }} />
+              <Grid container alignItems="center" justifyContent="space-between">
+                <Grid item>
+                  <br />
+                  <Typography variant="h5">Income Overview</Typography>
+                </Grid>
+                <Grid item />
+              </Grid>
+              <MainCard sx={{ mt: 2 }} content={false}>
+                <Box sx={{ p: 3, pb: 0 }}>
+                  <Stack spacing={2}>
+                    <Typography variant="h6" color="textSecondary">
+                      This Week Statistics
+                    </Typography>
+                    <Typography variant="h3">$7,650</Typography>
+                  </Stack>
+                </Box>
+                <MonthlyBarChart />
+              </MainCard>
+            </div>
+          </Grid>
 
-      {/* row 2 */}
-      {/* <Grid item xs={12} md={7} lg={8}> */}
-      {/* <Grid container alignItems="center" justifyContent="space-between"> */}
-      {/* <Grid item>
+          <Grid item xs={12} md={4} lg={3}>
+            <Grid container alignItems="center" justifyContent="space-between">
+              <Grid item>{/* <Typography variant="h5">Analytics Report</Typography> */}</Grid>
+              <Grid item />
+            </Grid>
+            <MainCard style={{ padding: '1rem', width: '23rem', borderRadius: '1rem' }} content={false}>
+              <div>
+                <h3>Choose Category</h3>
+                <Select
+                  value="biscuits_and_cakes"
+                  onChange={handleCategoryChange}
+                  style={{ width: '320px' }} // Adjust the width as needed
+                >
+                  <MenuItem value="biscuits_and_cakes">Biscuits & Cakes (&lt;75G)</MenuItem>
+                  <MenuItem value="chocolate">Chocolate </MenuItem>
+                  <MenuItem value="candy ">Candy</MenuItem>
+                  <MenuItem value="powdered_bevarage">Powdered Beverage</MenuItem>
+                  <MenuItem value="grocery ">Grocery</MenuItem>
+                </Select>
+              </div>
+            </MainCard>
+            <MainCard sx={{ mt: 2 }} style={{ padding: '1rem', width: '23rem', height: 'auto', borderRadius: '1rem' }} content={false}>
+              <div>
+                {/* {progress !== 'completed' ? (
+                  <div>
+                    <h1>{progress}</h1>
+                  </div>
+                ) : ( */}
+                <div>
+                  <h2>Insights</h2>
+                  <h4>{Insight}</h4>
+                </div>
+                {/* )} */}
+
+                <img
+                  src={dashb}
+                  alt="Mantis"
+                  style={{
+                    width: '22rem',
+                    opacity: 0.1,
+                    height: '20rem',
+                    marginTop: '10rem',
+                    left: '928px'
+                  }}
+                />
+              </div>
+            </MainCard>
+          </Grid>
+
+          <Grid item md={8} sx={{ display: { sm: 'none', md: 'block', lg: 'none' } }} />
+
+          {/* row 2 */}
+          {/* <Grid item xs={12} md={7} lg={8}> */}
+          {/* <Grid container alignItems="center" justifyContent="space-between"> */}
+          {/* <Grid item>
             <Typography variant="h5">Unique Visitor</Typography>
           </Grid> */}
-      {/* <Grid item>
+          {/* <Grid item>
             <Stack direction="row" alignItems="center" spacing={0}>
               <Button
                 size="small"
@@ -372,14 +404,14 @@ const DashboardDefault = () => {
               </Button>
             </Stack>
           </Grid> */}
-      {/* </Grid> */}
-      {/* <MainCard content={false} sx={{ mt: 1.5 }}>
+          {/* </Grid> */}
+          {/* <MainCard content={false} sx={{ mt: 1.5 }}>
           <Box sx={{ pt: 1, pr: 2 }}>
             <IncomeAreaChart slot={slot} />
           </Box>
         </MainCard> */}
-      {/* </Grid> */}
-      {/* <Grid item xs={12} md={12} lg={12}>
+          {/* </Grid> */}
+          {/* <Grid item xs={12} md={12} lg={12}>
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid item>
             <Typography variant="h5">Income Overview</Typography>
@@ -400,7 +432,7 @@ const DashboardDefault = () => {
       </Grid>
 
       {/* row 3 */}
-      {/* <Grid item xs={12} md={7} lg={8}>
+          {/* <Grid item xs={12} md={7} lg={8}>
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid item>
             <Typography variant="h5">Recent Orders</Typography>
@@ -411,7 +443,7 @@ const DashboardDefault = () => {
           <OrdersTable />
         </MainCard>
       </Grid> */}
-      {/* <Grid item xs={12} md={5} lg={4}>
+          {/* <Grid item xs={12} md={5} lg={4}>
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid item>
             <Typography variant="h5">Analytics Report</Typography>
@@ -437,8 +469,8 @@ const DashboardDefault = () => {
         </MainCard>
       </Grid> */}
 
-      {/* row 4 */}
-      {/* <Grid item xs={12} md={7} lg={8}>
+          {/* row 4 */}
+          {/* <Grid item xs={12} md={7} lg={8}>
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid item>
             <Typography variant="h5">Sales Report</Typography>
@@ -470,7 +502,7 @@ const DashboardDefault = () => {
           <SalesColumnChart />
         </MainCard>
       </Grid> */}
-      {/* <Grid item xs={12} md={5} lg={4}>
+          {/* <Grid item xs={12} md={5} lg={4}>
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid item>
             <Typography variant="h5">Transaction History</Typography>
@@ -589,7 +621,9 @@ const DashboardDefault = () => {
           </Stack>
         </MainCard>
       </Grid>  */}
-    </Grid>
+        </Grid>
+      )}
+    </>
   );
 };
 
