@@ -31,7 +31,7 @@ import {
   createkpiAgentCheckStatus,
   createkpiMessageApi
 } from 'services/apiServices';
-import { file } from 'c:/users/lenovo/appdata/local/microsoft/typescript/5.3/node_modules/@babel/types/lib/index';
+
 //category value Mn Sar
 const months = [
   {
@@ -153,7 +153,7 @@ const DashboardDefault = () => {
         // Code to execute after completion of the loop
         const threadId = dataTwo.data?.[0].thread_id;
         const three = await createValueShareAsstMessageList({ thread_id: threadId });
-        const file = three.message_list.data?.[0]?.file_ids?.[0]?.id;
+        const file = three;
         setInsight(three.message_list.data?.[0]?.content?.[0]?.text.value);
         setFileID(file);
         console.log(fileId, 'file hay');
@@ -171,10 +171,10 @@ const DashboardDefault = () => {
   const stackChartAgg = async (file) => {
     try {
       const categoryToUse = selectedCategory ? { category: selectedCategory } : { category: 'biscuits_and_cakes' };
-
+      const idfile = { file_id: file.message_list.data?.[0]?.file_ids?.[0] };
       const first = await createStackedChartAgent({
         categoryToUse,
-        file_id: file
+        idfile
       });
       console.log(first, 'first SCA');
 
