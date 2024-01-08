@@ -172,10 +172,10 @@ const DashboardDefault = () => {
   const stackChartAgg = async (file) => {
     try {
       const categoryToUse = selectedCategory ? { category: selectedCategory } : { category: 'biscuits_and_cakes' };
-      const idfile = { file_id: file.message_list.data[0].content[0].text.annotations[0].file_path.file_id };
+      const idfile = { file_id: file.message_list.data[0].content[0].text.annotations[0].file_path?.file_id };
       const first = await createStackedChartAgent({
-        categoryToUse,
-        idfile
+        category: categoryToUse,
+        file_id: idfile
       });
       console.log(first, 'first SCA');
 
@@ -296,39 +296,39 @@ const DashboardDefault = () => {
             <h3>Category Value Mn SAR</h3>
             <div style={{ display: 'flex', gap: '1rem' }}>
               {months.map((item, index) => (
-                <div key={index} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem' }}>
+                <div key={index} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                   <p>{item.month}</p>
-                  <div>
-                    {kpi?.map((item, index) => (
-                      <div key={index} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem' }}>
-                        <p>{item.month}</p>
-                        <p style={{ fontWeight: '600' }}>{item}</p>
-                        <div style={{ width: '.1rem', height: '2.5rem', backgroundColor: '#D4D4D4' }}></div>
-                      </div>
-                    ))}
-                  </div>
+                  {/* <div style={{ width: '.1rem', height: '2.5rem', backgroundColor: '#D4D4D4' }}></div> */}
                 </div>
               ))}
             </div>
+            <div style={{ display: 'flex', gap: '1rem' }}>
+              {kpi?.map((item, index) => (
+                <div key={index} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '2rem' }}>
+                  <p style={{ fontWeight: '600' }}>{String(item).slice(0, 4)}</p>{' '}
+                </div>
+              ))}
+            </div>
+            {/* </div> */}
           </div>
           <div style={{ marginTop: '1rem', background: '#FCFFD6', border: '1px solid #CECECE', borderRadius: '8px', padding: '1rem' }}>
             <h3>Category Volume in Tons</h3>
             <div style={{ display: 'flex', gap: '1rem' }}>
               {months.map((item, index) => (
-                <div key={index} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem' }}>
+                <div key={index} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                   <p>{item.month}</p>
+                  {/* <div style={{ width: '.1rem', height: '2.5rem', backgroundColor: '#D4D4D4' }}></div> */}
                 </div>
               ))}
-              <div>
-                {volume?.map((item, index) => (
-                  <>
-                    <div key={index} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem' }}>
-                      <p style={{ fontWeight: '600' }}>{item}</p>
-                    </div>
-                    <div style={{ width: '.1rem', height: '2.5rem', backgroundColor: '#D4D4D4' }}></div>
-                  </>
-                ))}
-              </div>
+            </div>
+            <div style={{ display: 'flex', gap: '1rem' }}>
+              {volume?.map((item, index) => (
+                <>
+                  <div key={index} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '2rem' }}>
+                    <p style={{ fontWeight: '600' }}>{String(item).slice(0, 4)}</p>
+                  </div>
+                </>
+              ))}
             </div>
           </div>
 
