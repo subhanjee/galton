@@ -110,7 +110,8 @@ const months = [
 const DashboardDefault = () => {
   const [Insight, setInsight] = useState('');
   const [chart, setchart] = useState('');
-  const [kpi, setkpi] = useState('');
+  const [kpi, setkpi] = useState([]);
+  const [volume, setvolume] = useState([]);
 
   const [fileId, setFileID] = useState('');
   // const [slot] = useState('week');
@@ -169,10 +170,10 @@ const DashboardDefault = () => {
   const stackChartAgg = async (file) => {
     try {
       const categoryToUse = selectedCategory ? { category: selectedCategory } : { category: 'biscuits_and_cakes' };
-      const idfile = { file_id: file.message_list.data?.[0]?.file_ids?.[0] };
+      const idfile = { file_id: file.message_list.data[0].content[0].text.annotations[0].file_path?.file_id };
       const first = await createStackedChartAgent({
-        categoryToUse,
-        idfile
+        category: 'biscuits_and_cakes',
+        file_id: file.message_list.data[0].content[0].text.annotations[0].file_path?.file_id
       });
       console.log(first, 'first SCA');
 
@@ -202,7 +203,10 @@ const DashboardDefault = () => {
 
         // Code to execute after completion of the loop
         const threadId = dataTwo.data?.[0].thread_id;
-        const three = await createStackedChartAgentMessageList({ thread_id: threadId });
+        const three = await createStackedChartAgentMessageList({
+          thread_id: threadId,
+          file_id: file.message_list.data[0].content[0].text.annotations[0].file_path?.file_id
+        });
         setchart(three);
         console.log(three, 'three SCA');
       }
@@ -247,8 +251,27 @@ const DashboardDefault = () => {
         // Code to execute after completion of the loop
         const threadId = dataTwo.data?.[0].thread_id;
         const three = await createkpiMessageApi({ thread_id: threadId });
-        setkpi(three.message_list.data);
-        console.log(three.message_list.data, 'three KPI');
+        console.log(three, 'three KPI');
+        const data = three.message_list.data?.[0]?.content?.[0]?.text.value;
+        const parseData = (data) => {
+          const regex = /Value Sales:{(.*?)},\s*Volume:{(.*?)}/s;
+          const match = data.match(regex);
+
+          if (match && match.length === 3) {
+            const valueSales = match[1].split(',').map((value) => parseFloat(value.trim()));
+            const volume = match[2].split(',').map((value) => parseFloat(value.trim()));
+
+            return { valueSales, volume };
+          }
+
+          return { valueSales: [], volume: [] };
+        };
+
+        // Then, you can use parseData function and get separated data
+        const { valueSales, volume } = parseData(data);
+        console.log(valueSales, volume, 'DATA HAY BHAI');
+        setkpi(valueSales);
+        setvolume(volume);
       }
 
       // Invoke the checkStatusUntilCompleted function
@@ -266,37 +289,47 @@ const DashboardDefault = () => {
     <Grid container rowSpacing={4.5} columnSpacing={2.75}>
       {/* row 1 */}
 
-      <Grid item xs={12} sm={6} md={6} lg={8}>
+      <Grid item>
         <div style={{ boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', border: '1px solid #CECECE', borderRadius: '1rem', padding: '1.2rem' }}>
           <p style={{ fontSize: '2rem' }}>Biscuits & Cakes (&lt;75G)</p>
           <p style={{ fontSize: '1rem', fontWeight: '700' }}>KPIs</p>
           <div style={{ background: '#EDFAFF', border: '1px solid #CECECE', borderRadius: '8px', padding: '1rem' }}>
             <h3>Category Value Mn SAR</h3>
             <div style={{ display: 'flex', gap: '1rem' }}>
-              {kpi.content?.map((item, index) => (
+              {months.map((item, index) => (
+                <div key={index} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '2rem' }}>
+                  <p>{item.month}</p>
+                  {/* <div style={{ width: '.1rem', height: '2.5rem', backgroundColor: '#D4D4D4' }}></div> */}
+                </div>
+              ))}
+            </div>
+            <div style={{ display: 'flex', gap: '1rem' }}>
+              {kpi?.map((item, index) => (
                 <div key={index} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem' }}>
-                  <div>
-                    {' '}
-                    <p>{item.Month}</p>
-                    <p style={{ fontWeight: '600' }}>{item.value}</p>{' '}
-                  </div>
+                  <p style={{ fontWeight: '600' }}>{item}</p>
                   <div style={{ width: '.1rem', height: '2.5rem', backgroundColor: '#D4D4D4' }}></div>
                 </div>
               ))}
             </div>
+            {/* </div> */}
           </div>
           <div style={{ marginTop: '1rem', background: '#FCFFD6', border: '1px solid #CECECE', borderRadius: '8px', padding: '1rem' }}>
             <h3>Category Volume in Tons</h3>
             <div style={{ display: 'flex', gap: '1rem' }}>
               {months.map((item, index) => (
-                <div key={index} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem' }}>
-                  <div>
-                    {' '}
-                    <p>{item.month}</p>
-                    <p style={{ fontWeight: '600' }}>{item.value}</p>{' '}
-                  </div>
-                  <div style={{ width: '.1rem', height: '2.5rem', backgroundColor: '#D4D4D4' }}></div>
+                <div key={index} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '2rem' }}>
+                  <p>{item.month}</p>
                 </div>
+              ))}
+            </div>
+            <div style={{ display: 'flex', gap: '1rem' }}>
+              {volume?.map((item, index) => (
+                <>
+                  <div key={index} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem' }}>
+                    <p style={{ fontWeight: '600' }}>{item}</p>
+                    <div style={{ width: '.1rem', height: '2.5rem', backgroundColor: '#D4D4D4' }}></div>
+                  </div>
+                </>
               ))}
             </div>
           </div>

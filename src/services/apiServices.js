@@ -340,7 +340,18 @@ export const createStackedChartAgent = async (params) => {
     });
 
     if (!response.ok) {
-      throw new Error(`createStackedChartAgent failed with status ${response.status}`);
+      try {
+        const errorText = await response.text(); // Try to parse the response body as text
+        const errorJson = JSON.parse(errorText); // Attempt to parse the text as JSON
+
+        // If parsing succeeds, log the JSON error response
+        console.error('Error response JSON:', errorJson);
+        throw new Error(`createStackedChartAgent failed with status ${response.status}. Response: ${errorJson.message}`);
+      } catch (jsonParseError) {
+        // If parsing fails, log the plain text error response
+        console.error('Error response text:', errorText);
+        throw new Error(`createStackedChartAgent failed with status ${response.status}. Response: ${errorText}`);
+      }
     }
 
     const data = await response.json();
@@ -351,6 +362,7 @@ export const createStackedChartAgent = async (params) => {
     throw error; // Rethrow the error to be caught by the calling function if needed
   }
 };
+
 // export const createStackedChartAgent = async () => {
 //   const response = await fetch(`${API_BASE_URL}/stacked_chart_agent`, {
 //     method: 'POST',
