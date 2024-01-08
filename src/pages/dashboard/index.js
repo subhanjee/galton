@@ -117,8 +117,9 @@ const DashboardDefault = () => {
   // const [slot] = useState('week');
   const [selectedCategory, setSelectedCategory] = useState('');
   const handleCategoryChange = (event) => {
-    setSelectedCategory(event.target.value);
-    console.log(selectedCategory);
+    const newCategory = event.target.value;
+    setSelectedCategory(newCategory);
+    console.log(newCategory);
   };
 
   const valShareAsst = async () => {
@@ -173,7 +174,7 @@ const DashboardDefault = () => {
       const idfile = { file_id: file.message_list.data[0].content[0].text.annotations[0].file_path?.file_id };
       const first = await createStackedChartAgent({
         category: categoryToUse,
-        file_id: idfile
+        file_id: file.message_list.data[0].content[0].text.annotations[0].file_path?.file_id
       });
       console.log(first, 'first SCA');
 
@@ -283,15 +284,16 @@ const DashboardDefault = () => {
   useEffect(() => {
     valShareAsst();
     kpiAsst();
+    stackChartAgg();
   }, []);
 
   return (
     <Grid container rowSpacing={4.5} columnSpacing={2.75}>
       {/* row 1 */}
 
-      <Grid item>
+      <Grid item xs={12} md={4} lg={8}>
         <div style={{ boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', border: '1px solid #CECECE', borderRadius: '1rem', padding: '1.2rem' }}>
-          <p style={{ fontSize: '2rem' }}>Biscuits & Cakes (&lt;75G)</p>
+          <p style={{ fontSize: '2rem' }}>{`${selectedCategory} `}</p>
           <p style={{ fontSize: '1rem', fontWeight: '700' }}>KPIs</p>
           <div style={{ background: '#EDFAFF', border: '1px solid #CECECE', borderRadius: '8px', padding: '1rem' }}>
             <h3>Category Value Mn SAR</h3>
@@ -365,7 +367,7 @@ const DashboardDefault = () => {
           <div>
             <h3>Choose Category</h3>
             <Select
-              value="biscuits_and_cakes"
+              value={selectedCategory}
               onChange={handleCategoryChange}
               style={{ width: '320px' }} // Adjust the width as needed
             >
@@ -381,7 +383,7 @@ const DashboardDefault = () => {
           <div>
             <h2>Insights</h2>
             <h4>{Insight}</h4>
-            <img src={dashb} alt="Mantis" style={{ width: '22rem', opacity: 0.1, height: '538px', marginTop: '10rem', left: '928px' }} />
+            <img src={dashb} alt="Mantis" style={{ width: '20rem', opacity: 0.1, height: '538px', marginTop: '10rem', left: '928px' }} />
           </div>
         </MainCard>
       </Grid>
