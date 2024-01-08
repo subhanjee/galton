@@ -23,14 +23,15 @@ import MainCard from 'components/MainCard';
 import {
   CreateValueShare,
   createValueShareAsstCheck,
-  createValueShareAsstMessageList
-  // createStackedChartAgent,
-  // createStackedChartAgentCheckStatus,
-  // createStackedChartAgentMessageList,
-  // createkpiAgent,
-  // createkpiAgentCheckStatus,
-  // createkpiMessageApi
+  createValueShareAsstMessageList,
+  createStackedChartAgent,
+  createStackedChartAgentCheckStatus,
+  createStackedChartAgentMessageList,
+  createkpiAgent,
+  createkpiAgentCheckStatus,
+  createkpiMessageApi
 } from 'services/apiServices';
+import { file } from 'c:/users/lenovo/appdata/local/microsoft/typescript/5.3/node_modules/@babel/types/lib/index';
 //category value Mn Sar
 const months = [
   {
@@ -108,6 +109,9 @@ const months = [
 
 const DashboardDefault = () => {
   const [Insight, setInsight] = useState('');
+  const [chart, setchart] = useState('');
+  const [kpi, setkpi] = useState('');
+
   const [fileId, setFileID] = useState('');
   // const [slot] = useState('week');
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -118,9 +122,9 @@ const DashboardDefault = () => {
 
   const valShareAsst = async () => {
     try {
-      const first = await CreateValueShare({
-        category: 'biscuits_and_cakes'
-      });
+      const categoryToUse = selectedCategory ? { category: selectedCategory } : { category: 'biscuits_and_cakes' };
+      const first = await CreateValueShare(categoryToUse);
+
       console.log(first, 'first VSA');
 
       async function checkStatusUntilCompleted(first) {
@@ -140,7 +144,7 @@ const DashboardDefault = () => {
             dataTwo = second.run_status;
           } else {
             // Optionally, you can introduce a delay before making the next check
-            await new Promise((resolve) => setTimeout(resolve, 10000)); // Wait for 1 second (adjust as needed)
+            await new Promise((resolve) => setTimeout(resolve, 30000)); // Wait for 1 second (adjust as needed)
           }
         }
 
@@ -149,9 +153,12 @@ const DashboardDefault = () => {
         // Code to execute after completion of the loop
         const threadId = dataTwo.data?.[0].thread_id;
         const three = await createValueShareAsstMessageList({ thread_id: threadId });
+        const file = three.message_list.data?.[0]?.file_ids?.[0]?.id;
         setInsight(three.message_list.data?.[0]?.content?.[0]?.text.value);
-        setFileID(three.message_list.data?.[0]?.file_id?.[0]);
+        setFileID(file);
+        console.log(fileId, 'file hay');
         console.log(three, 'three VSA');
+        stackChartAgg(file);
       }
 
       // Invoke the checkStatusUntilCompleted function
@@ -161,97 +168,100 @@ const DashboardDefault = () => {
     }
   };
 
-  // const stackChartAgg = async () => {
-  //   try {
-  //     const first = await CreateValueShare({
-  //       category: selectedCategory
-  //     });
-  //     console.log(first, 'first VSA');
+  const stackChartAgg = async (file) => {
+    try {
+      const categoryToUse = selectedCategory ? { category: selectedCategory } : { category: 'biscuits_and_cakes' };
 
-  //     async function checkStatusUntilCompleted(first) {
-  //       let isCompleted = false;
-  //       let status = '';
+      const first = await createStackedChartAgent({
+        categoryToUse,
+        file_id: file
+      });
+      console.log(first, 'first SCA');
 
-  //       while (!isCompleted) {
-  //         const second = await createValueShareAsstCheck({
-  //           thread_id: first.thread_id,
-  //           run_id: first.run_id
-  //         });
-  //         console.log(second, 'second VSA');
-  //         status = second.retrive_status;
+      async function checkStatusUntilCompleted(first) {
+        let isCompleted = false;
+        let status = '';
+        let dataTwo = {};
 
-  //         if (status == 'completed') {
-  //           isCompleted = true;
-  //           setsecound(secound.run_status?.data?.[0].thread_id);
-  //           console.log(secound.run_status, 'testinggg');
-  //         } else {
-  //           // Optionally, you can introduce a delay before making the next check
-  //           await new Promise((resolve) => setTimeout(resolve, 30000)); // Wait for 1 second (adjust as needed)
-  //         }
-  //       }
+        while (!isCompleted) {
+          const second = await createStackedChartAgentCheckStatus({
+            thread_id: first.thread_id,
+            run_id: first.run_id
+          });
+          console.log(second, 'second SCA');
+          status = second.retrive_status;
 
-  //       console.log('Retrieval completed. Final status:', status);
+          if (status == 'completed') {
+            isCompleted = true;
+            dataTwo = second.run_status;
+          } else {
+            // Optionally, you can introduce a delay before making the next check
+            await new Promise((resolve) => setTimeout(resolve, 30000)); // Wait for 1 second (adjust as needed)
+          }
+        }
 
-  //       // Code to execute after completion of the loop
-  //       const three = await createValueShareAsstMessageList({
-  //         thread_id: secound.run_status?.data?.[0].thread_id
-  //       });
-  //       console.log(three, 'three VSA');
-  //     }
+        console.log('Retrieval completed. Final status:', status);
 
-  //     // Invoke the checkStatusUntilCompleted function
-  //     await checkStatusUntilCompleted(first);
-  //   } catch (error) {
-  //     console.error('Error occurred:', error);
-  //   }
-  // };
+        // Code to execute after completion of the loop
+        const threadId = dataTwo.data?.[0].thread_id;
+        const three = await createStackedChartAgentMessageList({ thread_id: threadId });
+        setchart(three);
+        console.log(three, 'three SCA');
+      }
 
-  // const kpiAsst = async () => {
-  //   try {
-  //     const first = await createkpiAgent({
-  //       category: selectedCategory
-  //     });
-  //     console.log(first, 'first KPI');
+      // Invoke the checkStatusUntilCompleted function
+      await checkStatusUntilCompleted(first);
+    } catch (error) {
+      console.error('Error occurred:', error);
+    }
+  };
 
-  //     async function checkStatusUntilCompleted(first) {
-  //       let isCompleted = false;
-  //       let status = '';
+  const kpiAsst = async () => {
+    try {
+      const categoryToUse = selectedCategory ? { category: selectedCategory } : { category: 'biscuits_and_cakes' };
+      const first = await createkpiAgent(categoryToUse);
+      console.log(first, 'first KPI');
 
-  //       while (!isCompleted) {
-  //         const second = await createkpiAgentCheckStatus({
-  //           thread_id: first.thread_id,
-  //           run_id: first.run_id
-  //         });
-  //         console.log(second, 'second KPI');
-  //         status = second.retrive_status;
+      async function checkStatusUntilCompleted(first) {
+        let isCompleted = false;
+        let status = '';
+        let dataTwo = {};
 
-  //         if (status == 'completed') {
-  //           isCompleted = true;
-  //           setsecound(secound.run_status?.data?.[0].thread_id);
-  //           console.log(secound.run_status, 'testinggg');
-  //         } else {
-  //           // Optionally, you can introduce a delay before making the next check
-  //           await new Promise((resolve) => setTimeout(resolve, 30000)); // Wait for 1 second (adjust as needed)
-  //         }
-  //       }
+        while (!isCompleted) {
+          const second = await createkpiAgentCheckStatus({
+            thread_id: first.thread_id,
+            run_id: first.run_id
+          });
+          console.log(second, 'second KPI');
+          status = second.retrive_status;
 
-  //       console.log('Retrieval completed. Final status:', status);
+          if (status == 'completed') {
+            isCompleted = true;
+            dataTwo = second.run_status;
+          } else {
+            // Optionally, you can introduce a delay before making the next check
+            await new Promise((resolve) => setTimeout(resolve, 30000)); // Wait for 1 second (adjust as needed)
+          }
+        }
 
-  //       // Code to execute after completion of the loop
-  //       const three = await createkpiMessageApi({
-  //         thread_id: secound.run_status?.data?.[0].thread_id
-  //       });
-  //       console.log(three, 'three KPI');
-  //     }
+        console.log('Retrieval completed. Final status:', status);
 
-  //     // Invoke the checkStatusUntilCompleted function
-  //     await checkStatusUntilCompleted(first);
-  //   } catch (error) {
-  //     console.error('Error occurred:', error);
-  //   }
-  // };
+        // Code to execute after completion of the loop
+        const threadId = dataTwo.data?.[0].thread_id;
+        const three = await createkpiMessageApi({ thread_id: threadId });
+        setkpi(three);
+        console.log(three, 'three KPI');
+      }
+
+      // Invoke the checkStatusUntilCompleted function
+      await checkStatusUntilCompleted(first);
+    } catch (error) {
+      console.error('Error occurred:', error);
+    }
+  };
   useEffect(() => {
     valShareAsst();
+    kpiAsst();
   }, []);
 
   return (
