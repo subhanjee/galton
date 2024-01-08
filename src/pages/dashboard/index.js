@@ -147,9 +147,7 @@ const DashboardDefault = () => {
             await new Promise((resolve) => setTimeout(resolve, 30000)); // Wait for 1 second (adjust as needed)
           }
         }
-
         console.log('Retrieval completed. Final status:', status);
-
         // Code to execute after completion of the loop
         const threadId = dataTwo.data?.[0].thread_id;
         const three = await createValueShareAsstMessageList({ thread_id: threadId });
@@ -249,8 +247,8 @@ const DashboardDefault = () => {
         // Code to execute after completion of the loop
         const threadId = dataTwo.data?.[0].thread_id;
         const three = await createkpiMessageApi({ thread_id: threadId });
-        setkpi(three);
-        console.log(three, 'three KPI');
+        setkpi(three.message_list.data);
+        console.log(three.message_list.data, 'three KPI');
       }
 
       // Invoke the checkStatusUntilCompleted function
@@ -275,11 +273,11 @@ const DashboardDefault = () => {
           <div style={{ background: '#EDFAFF', border: '1px solid #CECECE', borderRadius: '8px', padding: '1rem' }}>
             <h3>Category Value Mn SAR</h3>
             <div style={{ display: 'flex', gap: '1rem' }}>
-              {months.map((item, index) => (
+              {kpi.content?.map((item, index) => (
                 <div key={index} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem' }}>
                   <div>
                     {' '}
-                    <p>{item.month}</p>
+                    <p>{item.Month}</p>
                     <p style={{ fontWeight: '600' }}>{item.value}</p>{' '}
                   </div>
                   <div style={{ width: '.1rem', height: '2.5rem', backgroundColor: '#D4D4D4' }}></div>
