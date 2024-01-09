@@ -28,96 +28,7 @@ export const createThread = async (params) => {
     throw error; // Rethrow the error to be caught by the calling function if needed
   }
 };
-// export const createThread = async () => {
-//   const response = await fetch(`${API_BASE_URL}/create_thread`, {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json'
-//     },
-//     body: JSON.stringify()
-//   });
-//   const data = await response.json();
-//   return data;
-// };
 
-// Update CreateValueShare function to accept parameters
-export const CreateValueShare = async (params) => {
-  try {
-    const response = await fetch(`${API_BASE_URL}/value_share_asst`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(params) // Send the provided parameters in the request body
-    });
-
-    if (!response.ok) {
-      throw new Error(`CreateValueShare failed with status ${response.status}`);
-    }
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    // Handle any errors that occur during the API call
-    console.error('Error occurred:', error);
-    throw error; // Rethrow the error to be caught by the calling function if needed
-  }
-};
-export const createValueShareAsstCheck = async (params) => {
-  try {
-    const response = await fetch(`${API_BASE_URL}/value_share_asst_check_status`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(params) // Send the provided parameters in the request body
-    });
-
-    if (!response.ok) {
-      throw new Error(`createValueShareAsstCheck failed with status ${response.status}`);
-    }
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    // Handle any errors that occur during the API call
-    console.error('Error occurred:', error);
-    throw error; // Rethrow the error to be caught by the calling function if needed
-  }
-};
-// export const createValueShareAsstCheck = async () => {
-//   const response = await fetch(`${API_BASE_URL}/value_share_asst_check_status`, {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json'
-//     },
-//     body: JSON.stringify()
-//   });
-//   const data = await response.json();
-//   return data;
-// };
-export const createValueShareAsstMessageList = async (params) => {
-  try {
-    const response = await fetch(`${API_BASE_URL}/value_share_asst_message_list`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(params) // Send the provided parameters in the request body
-    });
-
-    if (!response.ok) {
-      throw new Error(`createValueShareAsstMessageList failed with status ${response.status}`);
-    }
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    // Handle any errors that occur during the API call
-    console.error('Error occurred:', error);
-    throw error; // Rethrow the error to be caught by the calling function if needed
-  }
-};
 // export const createValueShareAsstMessageList = async () => {
 //   const response = await fetch(`${API_BASE_URL}/value_share_asst_message_list`, {
 //     method: 'POST',
@@ -242,6 +153,96 @@ export const createChartThread = async (params) => {
 
     if (!response.ok) {
       throw new Error(`createChartThread failed with status ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    // Handle any errors that occur during the API call
+    console.error('Error occurred:', error);
+    throw error; // Rethrow the error to be caught by the calling function if needed
+  }
+};
+// export const createThread = async () => {
+//   const response = await fetch(`${API_BASE_URL}/create_thread`, {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json'
+//     },
+//     body: JSON.stringify()
+//   });
+//   const data = await response.json();
+//   return data;
+// };
+
+// Update CreateValueShare function to accept parameters
+export const CreateValueShare = async (params) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/value_share_asst`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(params) // Send the provided parameters in the request body
+    });
+
+    if (!response.ok) {
+      throw new Error(`CreateValueShare failed with status ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    // Handle any errors that occur during the API call
+    console.error('Error occurred:', error);
+    throw error; // Rethrow the error to be caught by the calling function if needed
+  }
+};
+export const createValueShareAsstCheck = async (params) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/value_share_asst_check_status`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(params) // Send the provided parameters in the request body
+    });
+
+    if (!response.ok) {
+      throw new Error(`createValueShareAsstCheck failed with status ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    // Handle any errors that occur during the API call
+    console.error('Error occurred:', error);
+    throw error; // Rethrow the error to be caught by the calling function if needed
+  }
+};
+// export const createValueShareAsstCheck = async () => {
+//   const response = await fetch(`${API_BASE_URL}/value_share_asst_check_status`, {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json'
+//     },
+//     body: JSON.stringify()
+//   });
+//   const data = await response.json();
+//   return data;
+// };
+export const createValueShareAsstMessageList = async (params) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/value_share_asst_message_list`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(params) // Send the provided parameters in the request body
+    });
+
+    if (!response.ok) {
+      throw new Error(`createValueShareAsstMessageList failed with status ${response.status}`);
     }
 
     const data = await response.json();

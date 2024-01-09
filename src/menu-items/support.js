@@ -41,14 +41,14 @@ const support = {
       type: 'item',
       url: ' '
       // icon: icons.ChromeOutlined
-    },
-    {
-      id: 'setting',
-      title: <p style={{ color: 'white', fontWeight: '200' }}>Setting</p>,
-      type: 'item',
-      url: '/Ask'
-      // icon: icons.ChromeOutlined
     }
+    // {
+    //   id: 'setting',
+    //   title: <p style={{ color: 'white', fontWeight: '200' }}>Setting</p>,
+    //   type: 'item',
+    //   url: '/Ask'
+    //   // icon: icons.ChromeOutlined
+    // }
   ]
 };
 

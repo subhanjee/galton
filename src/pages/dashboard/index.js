@@ -154,7 +154,7 @@ const DashboardDefault = () => {
         const threadId = dataTwo.data?.[0].thread_id;
         const three = await createValueShareAsstMessageList({ thread_id: threadId });
         const file = three;
-        setInsight(three.message_list.data?.[0]?.content?.[0]?.text.value);
+        setInsight(three.message_list?.data?.[0]?.content?.[0]?.text.value);
         setFileID(file);
         console.log(fileId, 'file hay');
         console.log(three, 'three VSA');
@@ -171,10 +171,10 @@ const DashboardDefault = () => {
   const stackChartAgg = async (file) => {
     try {
       const categoryToUse = selectedCategory ? { category: selectedCategory } : { category: 'biscuits_and_cakes' };
-      const idfile = { file_id: file.message_list.data[0].content[0].text.annotations[0].file_path?.file_id };
+      const idfile = { file_id: file.message_list?.data[0].content[0].text.annotations[0].file_path?.file_id };
       const first = await createStackedChartAgent({
         category: 'biscuits_and_cakes',
-        file_id: file.message_list.data[0].content[0].text.annotations[0].file_path?.file_id
+        file_id: file.message_list?.data[0].content[0].text.annotations[0].file_path?.file_id
       });
       console.log(first, 'first SCA');
 
@@ -206,7 +206,7 @@ const DashboardDefault = () => {
         const threadId = dataTwo.data?.[0].thread_id;
         const three = await createStackedChartAgentMessageList({
           thread_id: threadId,
-          file_id: file.message_list.data[0].content[0].text.annotations[0].file_path?.file_id
+          file_id: file.message_list?.data[0].content[0].text.annotations[0].file_path?.file_id
         });
         setchart(three);
         console.log(three, 'three SCA');
@@ -253,7 +253,7 @@ const DashboardDefault = () => {
         const threadId = dataTwo.data?.[0].thread_id;
         const three = await createkpiMessageApi({ thread_id: threadId });
         console.log(three, 'three KPI');
-        const data = three.message_list.data?.[0]?.content?.[0]?.text.value;
+        const data = three.message_list?.data?.[0]?.content?.[0]?.text.value;
         const parseData = (data) => {
           const regex = /Value Sales:{(.*?)},\s*Volume:{(.*?)}/s;
           const match = data.match(regex);
@@ -297,7 +297,7 @@ const DashboardDefault = () => {
           <p style={{ fontSize: '1rem', fontWeight: '700' }}>KPIs</p>
           <div style={{ background: '#EDFAFF', border: '1px solid #CECECE', borderRadius: '8px', padding: '1rem' }}>
             <h3>Category Value Mn SAR</h3>
-            <div style={{ display: 'flex', gap: '1rem' }}>
+            <div style={{ display: 'flex', gap: '1.8rem' }}>
               {months.map((item, index) => (
                 <div key={index} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '2rem' }}>
                   <p>{item.month}</p>
@@ -317,7 +317,7 @@ const DashboardDefault = () => {
           </div>
           <div style={{ marginTop: '1rem', background: '#FCFFD6', border: '1px solid #CECECE', borderRadius: '8px', padding: '1rem' }}>
             <h3>Category Volume in Tons</h3>
-            <div style={{ display: 'flex', gap: '1rem' }}>
+            <div style={{ display: 'flex', gap: '2.2rem' }}>
               {months.map((item, index) => (
                 <div key={index} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '2rem' }}>
                   <p>{item.month}</p>

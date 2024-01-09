@@ -1,16 +1,13 @@
 import React from 'react';
 
+const Insight = ({ callInsightor }) => {
+  console.log(callInsightor, 'Insight');
 
-const Insight = ({ apiResponse }) => {
-   const points = apiResponse.insight.split('\n').filter(point => point.trim() !== '');
-   return (
-       <div>
-           {points.map((point, index) => (
-               <p key={index}>{point.trim()}</p>
-           ))}
-       </div>
-   );
+  return (
+    <div>
+      <p style={{ color: 'black', fontSize: '1rem' }}>{callInsightor}</p>
+    </div>
+  );
 };
-
 
 export default Insight;

@@ -1,43 +1,53 @@
 import React from 'react';
 import ApexCharts from 'react-apexcharts';
 
-
 const CustomChart = ({ chartData }) => {
+  // Clean up the data and remove unnecessary characters
+  const cleanChartData = {
+    type: chartData?.type,
+    title: chartData?.title,
+    x: {
+      title: chartData?.x?.title,
+      value: chartData?.x?.value.map((item) => item.replace(/\n/g, '').trim()) // Remove \n and extra spaces
+    },
+    y: [
+      {
+        title: chartData?.y?.[0]?.title,
+        data: chartData?.y?.[0]?.value
+      }
+    ]
+  };
 
+  const options = {
+    chart: {
+      type: cleanChartData?.type
+    },
+    xaxis: {
+      categories: cleanChartData?.x?.value,
+      title: {
+        text: cleanChartData?.x?.title
+      }
+    },
+    yaxis: {
+      title: {
+        text: cleanChartData?.y?.[0]?.title
+      }
+    }
+  };
 
-   chartData = chartData.chart;
-   const options = {
-       chart: {
-           type: chartData.type,
-       },
-       xaxis: {
-           categories: chartData.x.value,
-           title: {
-               text: chartData.x.title,
-           },
-       },
-       yaxis: {
-           title: {
-               text: 'Value Sales (SAR)', // You can make this dynamic as well if needed
-           },
-       },
-   };
+  const series = [
+    {
+      name: cleanChartData?.y?.[0]?.title,
+      data: cleanChartData?.y?.[0]?.data // Use 'data' property within the series
+    }
+  ];
 
-
-   // Prepare data for ApexCharts dynamically based on y
-   const series = chartData.y.map(item => ({
-       name: item.title,
-       data: item.value,
-   }));
-
-
-   return (
-       <div>
-           <h2>{chartData.title}</h2>
-           <ApexCharts options={options} series={series} type={chartData.type} height={350} />
-       </div>
-   );
+  return (
+    <div>
+      <h2>{cleanChartData?.title}</h2>
+      <ApexCharts options={options} series={series} type={cleanChartData?.type} height={350} />
+    </div>
+  );
 };
-
 
 export default CustomChart;

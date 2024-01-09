@@ -1,19 +1,13 @@
 import React from 'react';
 
+const Digger = ({ callDigger }) => {
+  console.log(callDigger, 'Digger');
 
-const Digger = ({ apiResponse }) => {
-   console.log(apiResponse);
-   const points = apiResponse.digger_1.split('\n').filter(point => point.trim() !== '');
-   console.log(points);
-   return (
-       <div>
-           {points.map((point, index) => (
-               <p key={index}>{point.trim()}</p>
-           ))}
-       </div>
-   );
+  return (
+    <div>
+      <p style={{ color: 'black', fontSize: '1rem' }}>{callDigger}</p>
+    </div>
+  );
 };
 
-
 export default Digger;
-
