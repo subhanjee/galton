@@ -173,7 +173,7 @@ const DashboardDefault = () => {
       const categoryToUse = selectedCategory ? { category: selectedCategory } : { category: 'biscuits_and_cakes' };
       const idfile = { file_id: file.message_list.data[0].content[0].text.annotations[0].file_path?.file_id };
       const first = await createStackedChartAgent({
-        category: categoryToUse,
+        category: 'biscuits_and_cakes',
         file_id: file.message_list.data[0].content[0].text.annotations[0].file_path?.file_id
       });
       console.log(first, 'first SCA');
