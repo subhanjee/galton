@@ -132,7 +132,7 @@ const DashboardDefault = () => {
 
       console.log(first, 'first VSA');
 
-      async function checkStatusUntilCompleted(first) {
+      const checkStatusUntilCompleted = async (first) => {
         let isCompleted = false;
         let status = '';
         let dataTwo = {};
@@ -162,7 +162,7 @@ const DashboardDefault = () => {
         console.log(fileId, 'file hay');
         console.log(three, 'three VSA');
         stackChartAgg(file);
-      }
+      };
 
       // Invoke the checkStatusUntilCompleted function
       await checkStatusUntilCompleted(first);
@@ -173,8 +173,8 @@ const DashboardDefault = () => {
 
   const stackChartAgg = async (file) => {
     try {
-      const categoryToUse = selectedCategory ? { category: selectedCategory } : { category: 'biscuits_and_cakes' };
-      const idfile = { file_id: file.message_list.data[0].content[0].text.annotations[0].file_path?.file_id };
+      // const categoryToUse = selectedCategory ? { category: selectedCategory } : { category: 'biscuits_and_cakes' };
+      // const idfile = { file_id: file.message_list.data[0].content[0].text.annotations[0].file_path?.file_id };
 
       const first = await createStackedChartAgent({
         category: 'biscuits_and_cakes',
@@ -182,7 +182,7 @@ const DashboardDefault = () => {
       });
       console.log(first, 'first SCA');
 
-      async function checkStatusUntilCompleted(first) {
+      const checkStatusUntilCompleted = async (first) => {
         let isCompleted = false;
         let status = '';
         let dataTwo = {};
@@ -236,7 +236,7 @@ const DashboardDefault = () => {
         const { series } = parseData(cleanedData);
         console.log(series, 'series data');
         setchart(series);
-      }
+      };
 
       await checkStatusUntilCompleted(first);
     } catch (error) {
@@ -250,7 +250,7 @@ const DashboardDefault = () => {
       const first = await createkpiAgent(categoryToUse);
       console.log(first, 'first KPI');
 
-      async function checkStatusUntilCompleted(first) {
+      const checkStatusUntilCompleted = async (first) => {
         let isCompleted = false;
         let status = '';
         let dataTwo = {};
@@ -298,7 +298,7 @@ const DashboardDefault = () => {
         console.log(valueSales, volume, 'DATA HAY BHAI');
         setkpi(valueSales);
         setvolume(volume);
-      }
+      };
 
       // Invoke the checkStatusUntilCompleted function
       await checkStatusUntilCompleted(first);
