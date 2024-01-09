@@ -120,6 +120,9 @@ const DashboardDefault = () => {
     const newCategory = event.target.value;
     setSelectedCategory(newCategory);
     console.log(newCategory);
+    valShareAsst();
+    kpiAsst();
+    stackChartAgg();
   };
 
   const valShareAsst = async () => {
