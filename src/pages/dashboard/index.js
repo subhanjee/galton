@@ -120,6 +120,9 @@ const DashboardDefault = () => {
     const newCategory = event.target.value;
     setSelectedCategory(newCategory);
     console.log(newCategory);
+    valShareAsst();
+    kpiAsst();
+    stackChartAgg();
   };
 
   const valShareAsst = async () => {
@@ -171,7 +174,8 @@ const DashboardDefault = () => {
   const stackChartAgg = async (file) => {
     try {
       const categoryToUse = selectedCategory ? { category: selectedCategory } : { category: 'biscuits_and_cakes' };
-      const idfile = { file_id: file.message_list?.data[0].content[0].text.annotations[0].file_path?.file_id };
+      const idfile = { file_id: file.message_list.data[0].content[0].text.annotations[0].file_path?.file_id };
+
       const first = await createStackedChartAgent({
         category: 'biscuits_and_cakes',
         file_id: file.message_list?.data[0].content[0].text.annotations[0].file_path?.file_id
@@ -191,28 +195,49 @@ const DashboardDefault = () => {
           console.log(second, 'second SCA');
           status = second.retrive_status;
 
-          if (status == 'completed') {
+          if (status === 'completed') {
             isCompleted = true;
             dataTwo = second.run_status;
           } else {
-            // Optionally, you can introduce a delay before making the next check
-            await new Promise((resolve) => setTimeout(resolve, 30000)); // Wait for 1 second (adjust as needed)
+            await new Promise((resolve) => setTimeout(resolve, 30000)); // Wait for 30 seconds
           }
         }
 
         console.log('Retrieval completed. Final status:', status);
 
-        // Code to execute after completion of the loop
         const threadId = dataTwo.data?.[0].thread_id;
         const three = await createStackedChartAgentMessageList({
           thread_id: threadId,
           file_id: file.message_list?.data[0].content[0].text.annotations[0].file_path?.file_id
         });
-        setchart(three);
         console.log(three, 'three SCA');
+        const rawData = three.message_list.data?.[0]?.content?.[0]?.text.value;
+        const cleanedData = rawData.replace(/^```json\s+/, '').replace(/```$/, '');
+
+        const parseData = (data) => {
+          try {
+            const jsonData = JSON.parse(data);
+
+            if (jsonData && jsonData.series) {
+              const series = jsonData.series.map((item) => ({
+                name: item.name,
+                data: item.data.map((value) => parseFloat(value))
+              }));
+
+              return { series };
+            }
+          } catch (error) {
+            console.error('Error parsing JSON data:', error);
+          }
+
+          return { series: [] };
+        };
+
+        const { series } = parseData(cleanedData);
+        console.log(series, 'series data');
+        setchart(series);
       }
 
-      // Invoke the checkStatusUntilCompleted function
       await checkStatusUntilCompleted(first);
     } catch (error) {
       console.error('Error occurred:', error);
@@ -353,7 +378,7 @@ const DashboardDefault = () => {
                 <Typography variant="h3">$7,650</Typography>
               </Stack>
             </Box>
-            <MonthlyBarChart />
+            {chart && <MonthlyBarChart data={chart} />}
           </MainCard>
         </div>
       </Grid>
