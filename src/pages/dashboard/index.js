@@ -115,7 +115,7 @@ const DashboardDefault = () => {
 
   const [fileId, setFileID] = useState('');
   // const [slot] = useState('week');
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('Biscuits & Cakes ');
   const handleCategoryChange = (event) => {
     const newCategory = event.target.value;
     setSelectedCategory(newCategory);
@@ -178,11 +178,11 @@ const DashboardDefault = () => {
 
       const first = await createStackedChartAgent({
         category: 'biscuits_and_cakes',
-        file_id: file.message_list?.data[0].content[0].text.annotations[0].file_path?.file_id
+        file_id: file.message_list.data[0].content[0].text.annotations[0].file_path?.file_id
       });
       console.log(first, 'first SCA');
 
-      const checkStatusUntilCompleted = async (first) => {
+      async function checkStatusUntilCompleted(first) {
         let isCompleted = false;
         let status = '';
         let dataTwo = {};
@@ -208,35 +208,25 @@ const DashboardDefault = () => {
         const threadId = dataTwo.data?.[0].thread_id;
         const three = await createStackedChartAgentMessageList({
           thread_id: threadId,
-          file_id: file.message_list?.data[0].content[0].text.annotations[0].file_path?.file_id
+          file_id: file.message_list.data[0].content[0].text.annotations[0].file_path?.file_id
         });
         console.log(three, 'three SCA');
         const rawData = three.message_list.data?.[0]?.content?.[0]?.text.value;
-        const cleanedData = rawData.replace(/^```json\s+/, '').replace(/```$/, '');
+        const cleanedData = rawData.replace(/^```json\s+|\s+```$/g, '');
+        console.log('Cleaned Data:', cleanedData);
 
-        const parseData = (data) => {
-          try {
-            const jsonData = JSON.parse(data);
+        try {
+          const parsedData = JSON.parse(cleanedData);
 
-            if (jsonData && jsonData.series) {
-              const series = jsonData.series.map((item) => ({
-                name: item.name,
-                data: item.data.map((value) => parseFloat(value))
-              }));
-
-              return { series };
-            }
-          } catch (error) {
-            console.error('Error parsing JSON data:', error);
+          if (parsedData && parsedData.series) {
+            const seriesData = parsedData.series;
+            console.log(seriesData); // Array of objects containing series data
+            setchart(seriesData);
           }
-
-          return { series: [] };
-        };
-
-        const { series } = parseData(cleanedData);
-        console.log(series, 'series data');
-        setchart(series);
-      };
+        } catch (error) {
+          console.error('Error occurred:', error);
+        }
+      }
 
       await checkStatusUntilCompleted(first);
     } catch (error) {
