@@ -24,6 +24,8 @@ const Ask = () => {
   const [callDigger, setCallDigger] = useState('');
   const [callcharity, setCallcharity] = useState('');
   const [callInsightor, setCallInsightor] = useState('');
+  const [loadingMessage, setLoadingMessage] = useState('');
+
   // Inside the component function
   // Function to call the API
   // const callApi = async () => {
@@ -88,6 +90,8 @@ const Ask = () => {
     try {
       // First, make the createThread API call
       setLoading(true);
+      // Step 1: Display "Please wait, creating thread..."
+      setLoadingMessage('Please wait, creating thread...');
       const first = await createThread({
         query: queryString
       });
@@ -95,12 +99,16 @@ const Ask = () => {
       console.log(first, 'thread');
 
       // Now, make the createCallDigger API call
+      // Step 2: Display "Please wait, calling Digger..."
+      setLoadingMessage('Please wait, calling Digger...');
       const calldraggerResponse = await createCallDigger({
         manager_response: first?.manager_response
       });
       setCallDigger(calldraggerResponse.response);
       console.log(calldraggerResponse, 'calldraggerResponse');
       // Add the new API call - callcharity
+      // Step 3: Display "Please wait, calling Chartify..."
+      setLoadingMessage('Please wait, calling Chartify...');
       const charityResponse = await createCallChartify({
         manager_response: first?.manager_response
       });
@@ -108,13 +116,18 @@ const Ask = () => {
       console.log(charityResponse, 'charityResponse');
 
       // Add the new API call - callinsightor
+      // Step 4: Display "Please wait, calling Insightor..."
+      setLoadingMessage('Please wait, calling Insightor...');
       const insightorResponse = await createCallInsightor({
         manager_response: first?.manager_response
       });
       setCallInsightor(insightorResponse.insight);
       console.log(insightorResponse, 'insightorResponse');
 
+      // Step 5: Display "Loading completed. Data is ready."
+      setLoadingMessage('Loading completed. Data is ready.');
       // Code to execute after completion of all API calls
+      setLoading(false);
 
       // Invoke the checkStatusUntilCompleted function
     } catch (error) {
@@ -131,6 +144,7 @@ const Ask = () => {
         // Something happened in setting up the request that triggered an Error
         console.error('Error during request setup:', error.message);
       }
+      setLoading(false);
     }
   };
 
@@ -149,7 +163,13 @@ const Ask = () => {
     <>
       {loading ? (
         // Loader while waiting for API response
-        <CircularProgress />
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
+          <CircularProgress style={{ fontSize: '3rem' }} />
+
+          <Typography variant="h3" sx={{ mt: 2 }}>
+            {loadingMessage}
+          </Typography>
+        </div>
       ) : showApiSection ? (
         // New section to display API response
         <>
@@ -157,28 +177,24 @@ const Ask = () => {
           <div
             style={{ boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', border: '1px solid #CECECE', borderRadius: '1rem', padding: '1.2rem' }}
           >
-            <Typography variant="h1">Response</Typography>
-            <MainCard content={callDigger} sx={{ mt: 1.5 }} style={{ padding: '20px' }}>
-              {/* <h4 style={{ color: 'black' }}></h4> */}
+            <Typography variant="h3">Response</Typography>
+            <MainCard content={callDigger} sx={{ mt: 1.5 }} style={{ padding: '20px', marginBottom: '1rem' }}>
               <Digger callDigger={callDigger} />
             </MainCard>
 
-            <Typography variant="h1">Month to Month Sales Variation By Category</Typography>
-            <MainCard content={callcharity} sx={{ mt: 1.5 }} style={{ padding: '20px' }}>
-              {/* <h4 style={{ color: 'black' }}></h4> */}
-
-              <CustomChart chartData={callcharity} />
+            <Typography variant="h3">Month to Month Sales Variation By Category</Typography>
+            <MainCard content={callcharity} sx={{ mt: 1.5 }} style={{ padding: '20px', marginBottom: '1rem' }}>
+              <CustomChart data={callcharity} />
             </MainCard>
-            <Typography variant="h1">Insight</Typography>
-            <MainCard content={callInsightor} sx={{ mt: 1.5 }} style={{ padding: '20px' }}>
-              {/* <h4 style={{ color: 'black' }}>Insight</h4> */}
+            <Typography variant="h3">Insight</Typography>
+            <MainCard content={callInsightor} sx={{ mt: 1.5 }} style={{ padding: '20px', marginBottom: '1rem' }}>
               <Insight callInsightor={callInsightor} />
             </MainCard>
           </div>
         </>
       ) : (
         <>
-          <Typography variant="h1">Query Suggestions</Typography>
+          <Typography variant="h3">Query Suggestions</Typography>
           <Grid container spacing={2} sx={{ mt: 1.5 }}>
             <Grid item xs={6}>
               <MainCard content={false} sx={{ mt: 1.5 }} style={{ padding: '20px' }}>

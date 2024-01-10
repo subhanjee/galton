@@ -1,22 +1,30 @@
 import React from 'react';
 import ApexCharts from 'react-apexcharts';
 
-const CustomChart = ({ chartData }) => {
+const CustomChart = ({ data }) => {
+  // Guard clause to handle undefined data
+  if (!data) {
+    console.error(data, 'Data is undefined.');
+    return null;
+  }
+
   // Clean up the data and remove unnecessary characters
   const cleanChartData = {
-    type: chartData?.type,
-    title: chartData?.title,
+    type: data?.type,
+    title: data?.title,
     x: {
-      title: chartData?.x?.title,
-      value: chartData?.x?.value.map((item) => item.replace(/\n/g, '').trim()) // Remove \n and extra spaces
+      title: data?.x?.title,
+      value: data?.x?.value?.map((item) => item.replace(/\n/g, '').trim()) || [] // Provide a default empty array
     },
-    y: [
-      {
-        title: chartData?.y?.[0]?.title,
-        data: chartData?.y?.[0]?.value
-      }
-    ]
+    y:
+      data?.y?.map((yItem) => ({
+        title: yItem?.title,
+        data: yItem?.value || [] // Provide a default empty array
+      })) || [] // Provide a default empty array
   };
+
+  // Log cleanChartData for debugging
+  console.log('Cleaned Chart Data:', cleanChartData);
 
   const options = {
     chart: {
@@ -28,19 +36,21 @@ const CustomChart = ({ chartData }) => {
         text: cleanChartData?.x?.title
       }
     },
-    yaxis: {
+    yaxis: cleanChartData?.y?.map((yItem) => ({
       title: {
-        text: cleanChartData?.y?.[0]?.title
+        text: yItem?.title
       }
-    }
+    }))
   };
 
-  const series = [
-    {
-      name: cleanChartData?.y?.[0]?.title,
-      data: cleanChartData?.y?.[0]?.data // Use 'data' property within the series
-    }
-  ];
+  const series = cleanChartData?.y?.map((yItem) => ({
+    name: yItem?.title,
+    data: yItem?.data
+  }));
+
+  // Log options and series for debugging
+  console.log('Options:', options);
+  console.log('Series:', series);
 
   return (
     <div>
