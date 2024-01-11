@@ -32,7 +32,7 @@ const support = {
       id: 'login',
       title: <p style={{ color: 'white', fontWeight: '200' }}>Login</p>,
       type: 'item',
-      url: '/LoginPage'
+      url: '/login'
       // icon: icons.ChromeOutlined
     },
     {

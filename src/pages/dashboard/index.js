@@ -296,10 +296,18 @@ const DashboardDefault = () => {
     }
   };
   useEffect(() => {
-    valShareAsst();
-    kpiAsst();
-    stackChartAgg();
-  }, [selectedCategory, kpi, volume]);
+    const fetchData = async () => {
+      try {
+        await valShareAsst();
+        await kpiAsst();
+        await stackChartAgg();
+      } catch (error) {
+        console.error('Error occurred:', error);
+      }
+    };
+
+    fetchData();
+  }, [selectedCategory]);
 
   return (
     <Grid container rowSpacing={4.5} columnSpacing={2.75}>
