@@ -173,11 +173,11 @@ const DashboardDefault = () => {
 
   const stackChartAgg = async (file) => {
     try {
-      // const categoryToUse = selectedCategory ? { category: selectedCategory } : { category: 'biscuits_and_cakes' };
+      const categoryToUse = selectedCategory ? { category: selectedCategory } : { category: 'biscuits_and_cakes' };
       // const idfile = { file_id: file.message_list.data[0].content[0].text.annotations[0].file_path?.file_id };
 
       const first = await createStackedChartAgent({
-        category: 'biscuits_and_cakes',
+        category: categoryToUse,
         file_id: file.message_list.data[0].content[0].text.annotations[0].file_path?.file_id
       });
       console.log(first, 'first SCA');

@@ -104,8 +104,10 @@ const Ask = () => {
       const charityResponse = await createCallChartify({
         manager_response: first?.manager_response
       });
-      setCallcharity(charityResponse.chart);
       console.log(charityResponse, 'charityResponse');
+      const cleanedData = charityResponse.chart.replace(/^```json\s+|\s+```$/g, '');
+      console.log('Cleaned Data:', cleanedData);
+      setCallcharity(cleanedData);
 
       // Add the new API call - callinsightor
       const insightorResponse = await createCallInsightor({
