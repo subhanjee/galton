@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // material-ui
 import { MenuItem, Select, Box, Grid, Stack, Typography } from '@mui/material';
@@ -114,7 +114,7 @@ const DashboardDefault = () => {
   const [volume, setvolume] = useState([]);
   const [fileId, setFileID] = useState('');
   // const [slot] = useState('week');
-  const [selectedCategory, setSelectedCategory] = useState('biscuits_and_cakes');
+  const [selectedCategory, setSelectedCategory] = useState('biscuits_and_cakes'); // or any other default category
   const handleCategoryChange = (event) => {
     const newCategory = event.target.value;
     setSelectedCategory(newCategory);
@@ -175,10 +175,10 @@ const DashboardDefault = () => {
       // const categoryToUse = selectedCategory ? { category: selectedCategory } : { category: 'biscuits_and_cakes' };
       // const idfile = { file_id: file.message_list.data[0].content[0].text.annotations[0].file_path?.file_id };
 
-      const first = await createStackedChartAgent(
-        selectedCategory,
-        file.message_list.data[0].content[0].text.annotations[0].file_path?.file_id
-      );
+      const first = await createStackedChartAgent({
+        category: selectedCategory,
+        file_id: file.message_list.data[0].content[0].text.annotations[0].file_path?.file_id
+      });
       console.log(first, 'first SCA');
 
       const checkStatusUntilCompleted = async (first) => {
@@ -295,11 +295,11 @@ const DashboardDefault = () => {
       console.error('Error occurred:', error);
     }
   };
-  // useEffect(() => {
-  //   valShareAsst();
-  //   kpiAsst();
-  //   stackChartAgg();
-  // }, []);
+  useEffect(() => {
+    valShareAsst();
+    kpiAsst();
+    stackChartAgg();
+  }, [selectedCategory, kpi, volume]);
 
   return (
     <Grid container rowSpacing={4.5} columnSpacing={2.75}>
@@ -387,9 +387,9 @@ const DashboardDefault = () => {
             >
               <MenuItem value="biscuits_and_cakes">Biscuits & Cakes (&lt;75G)</MenuItem>
               <MenuItem value="chocolate">Chocolate </MenuItem>
-              <MenuItem value="candy ">Candy</MenuItem>
+              <MenuItem value="candy">Candy</MenuItem>
               <MenuItem value="powdered_bevarage">Powdered Beverage</MenuItem>
-              <MenuItem value="grocery ">Grocery</MenuItem>
+              <MenuItem value="grocery">Grocery</MenuItem>
             </Select>
           </div>
         </MainCard>
