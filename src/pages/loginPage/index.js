@@ -6,10 +6,12 @@ import { Col, Row } from '../../../node_modules/antd/es/index';
 import loginLogo from '../../assets/images/login.png';
 import { setEmail, setPassword, setAuthenticated, setErrorMessage } from '../../store/reducers/login';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 export default function LoginPage() {
   const dispatch = useDispatch();
   const { email, password, successMessage, errorMessage } = useSelector((state) => state.login || {});
+  const navigate = useNavigate();
 
   const handleEmailChange = (e) => {
     dispatch(setEmail(e.target.value));
@@ -29,6 +31,7 @@ export default function LoginPage() {
     if (trimmedEmail === 'demo@galton.ai' && trimmedPassword === 'g@alton123#') {
       // Successful login
       dispatch(setAuthenticated(true));
+      navigate('/dashboard/default');
     } else {
       // Handle invalid login
       dispatch(setAuthenticated(false));

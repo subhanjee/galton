@@ -25,6 +25,7 @@ const Ask = () => {
   const [callcharity, setCallcharity] = useState('');
   const [callInsightor, setCallInsightor] = useState('');
   const [loadingMessage, setLoadingMessage] = useState('');
+  const [currentStep, setCurrentStep] = useState(0);
 
   // Inside the component function
   // Function to call the API
@@ -100,6 +101,8 @@ const Ask = () => {
 
       // Now, make the createCallDigger API call
       // Step 2: Display "Please wait, calling Digger..."
+      setCurrentStep(1);
+
       setLoadingMessage('Please wait, calling Digger...');
       const calldraggerResponse = await createCallDigger({
         manager_response: first?.manager_response
@@ -108,6 +111,8 @@ const Ask = () => {
       console.log(calldraggerResponse, 'calldraggerResponse');
       // Add the new API call - callcharity
       // Step 3: Display "Please wait, calling Chartify..."
+      setCurrentStep(2);
+
       setLoadingMessage('Please wait, calling Chartify...');
       const charityResponse = await createCallChartify({
         manager_response: first?.manager_response
@@ -119,6 +124,8 @@ const Ask = () => {
 
       // Add the new API call - callinsightor
       // Step 4: Display "Please wait, calling Insightor..."
+      setCurrentStep(3);
+
       setLoadingMessage('Please wait, calling Insightor...');
       const insightorResponse = await createCallInsightor({
         manager_response: first?.manager_response
@@ -127,6 +134,8 @@ const Ask = () => {
       console.log(insightorResponse, 'insightorResponse');
 
       // Step 5: Display "Loading completed. Data is ready."
+      setCurrentStep(4);
+
       setLoadingMessage('Loading completed. Data is ready.');
       // Code to execute after completion of all API calls
       setLoading(false);
@@ -179,19 +188,32 @@ const Ask = () => {
           <div
             style={{ boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', border: '1px solid #CECECE', borderRadius: '1rem', padding: '1.2rem' }}
           >
-            <Typography variant="h3">Response</Typography>
-            <MainCard content={callDigger} sx={{ mt: 1.5 }} style={{ padding: '20px', marginBottom: '1rem' }}>
-              <Digger callDigger={callDigger} />
-            </MainCard>
-
-            <Typography variant="h3">Month to Month Sales Variation By Category</Typography>
-            <MainCard content={callcharity} sx={{ mt: 1.5 }} style={{ padding: '20px', marginBottom: '1rem' }}>
-              <CustomChart data={callcharity} />
-            </MainCard>
-            <Typography variant="h3">Insight</Typography>
-            <MainCard content={callInsightor} sx={{ mt: 1.5 }} style={{ padding: '20px', marginBottom: '1rem' }}>
-              <Insight callInsightor={callInsightor} />
-            </MainCard>
+            <>
+              {currentStep >= 1 && (
+                <div>
+                  <Typography variant="h3">Digger Response</Typography>
+                  <MainCard content={callDigger} sx={{ mt: 1.5 }} style={{ padding: '20px', marginBottom: '1rem' }}>
+                    <Digger callDigger={callDigger} />
+                  </MainCard>
+                </div>
+              )}
+              {currentStep >= 2 && (
+                <div>
+                  <Typography variant="h3">Month to Month Sales Variation By Category</Typography>
+                  <MainCard content={callcharity} sx={{ mt: 1.5 }} style={{ padding: '20px', marginBottom: '1rem' }}>
+                    <CustomChart data={callcharity} />
+                  </MainCard>
+                </div>
+              )}
+              {currentStep >= 3 && (
+                <div>
+                  <Typography variant="h3">Insight Response</Typography>
+                  <MainCard content={callInsightor} sx={{ mt: 1.5 }} style={{ padding: '20px', marginBottom: '1rem' }}>
+                    <Insight callInsightor={callInsightor} />
+                  </MainCard>
+                </div>
+              )}
+            </>
           </div>
         </>
       ) : (
