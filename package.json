@@ -6,6 +6,7 @@
   "dependencies": {
     "@ant-design/colors": "^6.0.0",
     "@ant-design/icons": "^4.7.0",
+    "@craco/craco": "^7.1.0",
     "@emotion/cache": "^11.10.3",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
@@ -47,9 +48,9 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "test":"craco test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
