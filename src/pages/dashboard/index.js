@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 // material-ui
 import { MenuItem, Select, Box, Grid, Stack, Typography } from '@mui/material';
@@ -112,10 +112,9 @@ const DashboardDefault = () => {
   const [chart, setchart] = useState('');
   const [kpi, setkpi] = useState([]);
   const [volume, setvolume] = useState([]);
-
   const [fileId, setFileID] = useState('');
   // const [slot] = useState('week');
-  const [selectedCategory, setSelectedCategory] = useState('Biscuits & Cakes ');
+  const [selectedCategory, setSelectedCategory] = useState('biscuits_and_cakes');
   const handleCategoryChange = (event) => {
     const newCategory = event.target.value;
     setSelectedCategory(newCategory);
@@ -127,8 +126,8 @@ const DashboardDefault = () => {
 
   const valShareAsst = async () => {
     try {
-      const categoryToUse = selectedCategory ? { category: selectedCategory } : { category: 'biscuits_and_cakes' };
-      const first = await CreateValueShare(categoryToUse);
+      // const categoryToUse = selectedCategory ? { category: selectedCategory } : { category: 'biscuits_and_cakes' };
+      const first = await CreateValueShare({ category: selectedCategory });
 
       console.log(first, 'first VSA');
 
@@ -176,13 +175,13 @@ const DashboardDefault = () => {
       const categoryToUse = selectedCategory ? { category: selectedCategory } : { category: 'biscuits_and_cakes' };
       // const idfile = { file_id: file.message_list.data[0].content[0].text.annotations[0].file_path?.file_id };
 
-      const first = await createStackedChartAgent({
-        category: categoryToUse,
-        file_id: file.message_list.data[0].content[0].text.annotations[0].file_path?.file_id
-      });
+      const first = await createStackedChartAgent(
+        selectedCategory,
+        file.message_list.data[0].content[0].text.annotations[0].file_path?.file_id
+      );
       console.log(first, 'first SCA');
 
-      async function checkStatusUntilCompleted(first) {
+      const checkStatusUntilCompleted = async (first) => {
         let isCompleted = false;
         let status = '';
         let dataTwo = {};
@@ -226,7 +225,7 @@ const DashboardDefault = () => {
         } catch (error) {
           console.error('Error occurred:', error);
         }
-      }
+      };
 
       await checkStatusUntilCompleted(first);
     } catch (error) {
@@ -236,8 +235,8 @@ const DashboardDefault = () => {
 
   const kpiAsst = async () => {
     try {
-      const categoryToUse = selectedCategory ? { category: selectedCategory } : { category: 'biscuits_and_cakes' };
-      const first = await createkpiAgent(categoryToUse);
+      // const categoryToUse = selectedCategory ? { category: selectedCategory } : { category: 'biscuits_and_cakes' };
+      const first = await createkpiAgent({ category: selectedCategory });
       console.log(first, 'first KPI');
 
       const checkStatusUntilCompleted = async (first) => {
@@ -296,11 +295,11 @@ const DashboardDefault = () => {
       console.error('Error occurred:', error);
     }
   };
-  useEffect(() => {
-    valShareAsst();
-    kpiAsst();
-    stackChartAgg();
-  }, []);
+  // useEffect(() => {
+  //   valShareAsst();
+  //   kpiAsst();
+  //   stackChartAgg();
+  // }, []);
 
   return (
     <Grid container rowSpacing={4.5} columnSpacing={2.75}>
