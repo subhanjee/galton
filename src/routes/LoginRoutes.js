@@ -13,13 +13,13 @@ const LoginPage = Loadable(lazy(() => import('pages/loginPage/index')));
 
 const LoginRoutes = {
   path: '/',
-  element: <LoginPage />,
-  children: [
-    {
-      path: '/login',
-      element: <LoginPage />
-    }
-  ]
+  element: <LoginPage />
+  // children: [
+  //   {
+  //     path: '/login',
+  //     element: <LoginPage />
+  //   }
+  // ]
 };
 
 export default LoginRoutes;
