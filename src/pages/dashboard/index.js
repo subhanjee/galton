@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from 'react';
-
 // material-ui
-import { Backdrop, MenuItem, Select, Box, Grid, Stack, Typography } from '@mui/material';
+import { MenuItem, Select, Box, Grid, Stack, Typography } from '@mui/material';
 import dashb from 'assets/images/dashb.png';
-
 // project import
-
 import MonthlyBarChart from './MonthlyBarChart';
 import MainCard from 'components/MainCard';
-
 // API exports
 import {
   CreateValueShare,
@@ -21,6 +17,9 @@ import {
   createkpiAgentCheckStatus,
   createkpiMessageApi
 } from 'services/apiServices';
+import './index.js';
+import Lottie from 'lottie-react';
+import groovyWalkAnimation from './sub.json';
 
 //category value Mn Sar
 const months = [
@@ -105,8 +104,8 @@ const DashboardDefault = () => {
   const [fileId, setFileID] = useState('');
   const [loadingMessage, setLoadingMessage] = useState('Fetching data...');
   const [progress, setProgress] = useState('');
-  const [progressOne, setProgressOne] = useState('');
-  const [progressTwo, setProgressTwo] = useState('');
+  const [inputData, setInputData] = useState('');
+  const [outputData, setOutputData] = useState('');
   // const [slot] = useState('week');
   const [selectedCategory, setSelectedCategory] = useState('biscuits_and_cakes'); // or any other default category
   const handleCategoryChange = (event) => {
@@ -137,6 +136,12 @@ const DashboardDefault = () => {
           console.log(second, 'second VSA');
           status = second.retrive_status;
           setProgress(second.retrive_status);
+          const inputData = second.run_status?.data?.[0]?.step_details?.tool_calls?.[0]?.code_interpreter?.input;
+          const outputData = second.run_status?.data?.[0]?.step_details?.tool_calls?.[0]?.code_interpreter?.outputs?.[0]?.logs;
+
+          setInputData(inputData);
+          setOutputData(outputData);
+
           if (status == 'completed') {
             isCompleted = true;
             dataTwo = second.run_status;
@@ -188,7 +193,12 @@ const DashboardDefault = () => {
           });
           console.log(second, 'second SCA');
           status = second.retrive_status;
-          setProgressOne(second.retrive_status);
+          setProgress(second.retrive_status);
+          const inputData = second.run_status?.data?.[0]?.step_details?.tool_calls?.[0]?.code_interpreter?.input;
+          const outputData = second.run_status?.data?.[0]?.step_details?.tool_calls?.[0]?.code_interpreter?.outputs?.[0]?.logs;
+
+          setInputData(inputData);
+          setOutputData(outputData);
 
           if (status === 'completed') {
             isCompleted = true;
@@ -206,7 +216,7 @@ const DashboardDefault = () => {
           file_id: file.message_list.data[0].content[0].text.annotations[0].file_path?.file_id
         });
         console.log(three, 'three SCA');
-        setProgressOne(three.retrive_status);
+        setProgress(three.retrive_status);
 
         const rawData = three.message_list.data?.[0]?.content?.[0]?.text.value;
         const cleanedData = rawData.replace(/^```json\s+|\s+```$/g, '');
@@ -249,7 +259,12 @@ const DashboardDefault = () => {
           });
           console.log(second, 'second KPI');
           status = second.retrive_status;
-          setProgressTwo(second.retrive_status);
+          setProgress(second.retrive_status);
+          const inputData = second.run_status?.data?.[0]?.step_details?.tool_calls?.[0]?.code_interpreter?.input;
+          const outputData = second.run_status?.data?.[0]?.step_details?.tool_calls?.[0]?.code_interpreter?.outputs?.[0]?.logs;
+
+          setInputData(inputData);
+          setOutputData(outputData);
 
           if (status == 'completed') {
             isCompleted = true;
@@ -266,7 +281,7 @@ const DashboardDefault = () => {
         const threadId = dataTwo.data?.[0].thread_id;
         const three = await createkpiMessageApi({ thread_id: threadId });
         console.log(three, 'three KPI');
-        setProgressTwo(three.retrive_status);
+        setProgress(three.retrive_status);
 
         const data = three.message_list?.data?.[0]?.content?.[0]?.text.value;
         const parseData = (data) => {
@@ -321,23 +336,53 @@ const DashboardDefault = () => {
     <Grid container rowSpacing={4.5} columnSpacing={2.75}>
       {/* row 1 */}
       {loadingMessage && (
-        <Backdrop
-          sx={{
-            color: '#fff',
-            zIndex: (theme) => theme.zIndex.drawer + 1,
-            backgroundColor: 'rgba(0, 0, 0, 0.5)'
+        // Show a background layer or loading indicator while waiting for API calls
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'rgba(0,0, 0, 0.5)',
+            // opacity: 0.5,
+            zIndex: 9999,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
           }}
-          open={true}
         >
           <div style={{ textAlign: 'center' }}>
-            {progress}
-            {progressOne}
-            {progressTwo}
-            <Typography variant="h6" sx={{ marginLeft: '1rem' }}>
-              {loadingMessage}
-            </Typography>
+            <Lottie animationData={groovyWalkAnimation} loop={true} />
           </div>
-        </Backdrop>
+          <div
+            style={{
+              textAlign: 'center',
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              color: 'white',
+              animation: 'typingAnimation 4s steps(14, end) infinite', // Added "infinite" to make the animation continuous
+              overflow: 'hidden',
+              whiteSpace: 'nowrap'
+            }}
+          >
+            <div>
+              <Typography variant="h4">{progress}</Typography>
+              <Typography variant="h2">{loadingMessage}</Typography>
+              <div
+                style={{
+                  textAlign: 'center',
+                  width: '50rem'
+                }}
+              >
+                <Typography variant="h4">{inputData}</Typography>
+                <Typography variant="h4">{outputData}</Typography>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
 
       <>

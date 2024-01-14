@@ -1,5 +1,5 @@
 // material-ui
-import { Typography, Grid, TextField, CircularProgress } from '@mui/material';
+import { Typography, Grid, TextField } from '@mui/material';
 import React, { useState } from 'react';
 // project import
 import MainCard from 'components/MainCard';
@@ -8,16 +8,13 @@ import Digger from '../ask-element/Digger';
 import Insight from '../ask-element/Insight';
 import { createCallChartify, createCallDigger, createCallInsightor, createThread } from 'services/apiServices';
 import './index.css';
+import Lottie from 'lottie-react';
+import groovyWalkAnimation from './sub.json';
 // import IncomeAreaChart from './IncomeAreaChart';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const Ask = () => {
-  // State to manage API response and toggle between sections
-  // const [apiResponse, setApiResponse] = useState(null);
-  // const [diggerResponse, setdiggerResponse] = useState(null);
-  // const [chartResponse, setchartResponse] = useState(null);
-  // const [insightResponse, setinsightResponse] = useState(null);
   const [showApiSection, setShowApiSection] = useState(false);
   const [loading, setLoading] = useState(false);
   const [queryString, setQueryString] = useState('');
@@ -158,34 +155,63 @@ const Ask = () => {
       setLoading(false);
     }
   };
-
-  // useEffect to call the API when the component mounts
-  // useEffect(() => {
-  //   console.log('useEffect triggered');
-  //   if (showApiSection) {
-  //     callApi();
-  //   }
-  // }, [showApiSection]);
-  // useEffect(() => {
-  //   Thread();
-  //   // CallDigger();
-  // }, []);
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      Thread();
+    }
+  };
   return (
-    <>
+    <div>
       {loading ? (
-        // Loader while waiting for API response
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
-          <CircularProgress style={{ fontSize: '3rem' }} />
-
-          <Typography variant="h3" sx={{ mt: 2 }}>
-            {loadingMessage}
-          </Typography>
+        // Loader layer covering the entire page
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            background: 'rgba(0, 0, 0, 0.5)', // Adjust the background color and opacity as needed
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'column',
+            zIndex: 9999 // Ensure it appears above other elements
+          }}
+        >
+          <div style={{ textAlign: 'center' }}>
+            <Lottie animationData={groovyWalkAnimation} loop={true} />
+          </div>
+          <div
+            style={{
+              textAlign: 'center',
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              color: 'white',
+              animation: 'typingAnimation 4s steps(14, end) infinite', // Added "infinite" to make the animation continuous
+              overflow: 'hidden',
+              whiteSpace: 'nowrap'
+            }}
+          >
+            <Typography variant="h3" sx={{ mt: 2 }}>
+              {loadingMessage}
+            </Typography>
+          </div>
         </div>
-      ) : showApiSection ? (
+      ) : null}
+      {showApiSection ? (
         // New section to display API response
         <>
+          <Typography variant="h3" style={{ textAlign: 'center', marginBottom: '1rem' }}>
+            {queryString}
+          </Typography>
           {/* Display the three sections using the results from the API calls */}
           <div
+            role="button"
+            tabIndex={0}
+            onKeyPress={handleKeyPress}
             style={{ boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', border: '1px solid #CECECE', borderRadius: '1rem', padding: '1.2rem' }}
           >
             <>
@@ -217,7 +243,7 @@ const Ask = () => {
           </div>
         </>
       ) : (
-        <>
+        <div>
           <Typography variant="h3">Query Suggestions</Typography>
           <Grid container spacing={2} sx={{ mt: 1.5 }}>
             <Grid item xs={6}>
@@ -274,9 +300,9 @@ const Ask = () => {
           >
             Submit
           </button>
-        </>
+        </div>
       )}
-    </>
+    </div>
   );
 };
 

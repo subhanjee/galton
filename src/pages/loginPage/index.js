@@ -16,7 +16,11 @@ export default function LoginPage() {
   const handleEmailChange = (e) => {
     dispatch(setEmail(e.target.value));
   };
-
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleLogin();
+    }
+  };
   const handlePasswordChange = (e) => {
     dispatch(setPassword(e.target.value));
   };
@@ -40,7 +44,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="main-login">
+    <div className="main-login" role="button" tabIndex={0} onKeyPress={handleKeyPress}>
       {successMessage && <p style={{ color: 'white', fontSize: '2rem', textAlign: 'center' }}>{successMessage}</p>}
       {errorMessage && <p style={{ color: 'white', fontSize: '2rem', textAlign: 'center' }}>{errorMessage}</p>}
 

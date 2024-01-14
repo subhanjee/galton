@@ -7,7 +7,14 @@
   padding: 80px 0px;
   /* height: 100vh; */
 }
-
+@keyframes typingAnimation {
+  from {
+    width: 0 !important;
+  }
+  to {
+    width: 100% !important;
+  }
+}
 .main-center {
   display: flex;
   justify-content: center;

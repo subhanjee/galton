@@ -1,8 +1,17 @@
-.div-main {
-  background-image: url('https://app.spline.design/file/d81790b5-987e-465f-87e0-d879a0218c50');
-  width: 100vw;
-  height: 100vh;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+.pos-div-ani {
+  position: absolute !important;
+  z-index: 1 !important;
+  opacity: 0.5 !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  flex-direction: column !important;
+}
+@keyframes typingAnimation {
+  from {
+    width: 0 !important;
+  }
+  to {
+    width: 100% !important;
+  }
 }
