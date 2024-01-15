@@ -2,16 +2,19 @@
   "name": "mantis-free-react-admin-template",
   "version": "1.1.2",
   "private": true,
-  "homepage": "https://mantisdashboard.io/free",
+  "homepage": "https://mantisdashboard.io",
   "dependencies": {
     "@ant-design/colors": "^6.0.0",
     "@ant-design/icons": "^4.7.0",
+    "@craco/craco": "^7.1.0",
     "@emotion/cache": "^11.10.3",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "@mui/lab": "^5.0.0-alpha.100",
     "@mui/material": "^5.10.6",
     "@reduxjs/toolkit": "^1.9.7",
+    "@splinetool/react-spline": "^2.2.6",
+    "@splinetool/runtime": "^1.0.26",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
@@ -22,6 +25,7 @@
     "framer-motion": "^7.3.6",
     "history": "^5.3.0",
     "lodash": "^4.17.21",
+    "lottie-react": "^2.4.0",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.0",
@@ -47,9 +51,9 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
