@@ -1,5 +1,5 @@
 // material-ui
-import { Typography, Grid, TextField, Button, CircularProgress } from '@mui/material';
+import { Typography, Grid, TextField, CircularProgress } from '@mui/material';
 import React, { useState } from 'react';
 // project import
 import MainCard from 'components/MainCard';
@@ -7,7 +7,7 @@ import CustomChart from '../ask-element//CustomChart';
 import Digger from '../ask-element/Digger';
 import Insight from '../ask-element/Insight';
 import { createCallChartify, createCallDigger, createCallInsightor, createThread } from 'services/apiServices';
-
+import './index.css';
 // import IncomeAreaChart from './IncomeAreaChart';
 
 // ==============================|| SAMPLE PAGE ||============================== //
@@ -236,8 +236,8 @@ const Ask = () => {
             value={queryString}
             onChange={(e) => setQueryString(e.target.value)}
           />
-          <Button
-            variant="contained"
+          <button
+            // variant="contained"
             className="btn-black"
             onClick={() => {
               console.log('Button clicked');
@@ -251,7 +251,7 @@ const Ask = () => {
             }}
           >
             Submit
-          </Button>
+          </button>
         </>
       )}
     </>
