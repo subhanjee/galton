@@ -122,9 +122,11 @@ const Ask = () => {
               whiteSpace: 'nowrap'
             }}
           >
-            <Typography variant="h3" sx={{ mt: 2 }}>
-              {loadingMessage}
-            </Typography>
+            <div>
+              <Typography variant="h3" sx={{ mt: 2 }}>
+                {loadingMessage}
+              </Typography>
+            </div>
           </div>
         </div>
       ) : null}
